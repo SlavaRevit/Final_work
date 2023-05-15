@@ -38,10 +38,10 @@ import Autodesk
 from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI import *
 
-doc = DocumentManager.Instance.CurrentDBDocument
-uiapp = DocumentManager.Instance.CurrentUIApplication
-app = uiapp.Application
-uidoc = uiapp.ActiveUIDocument
+doc = __revit__.ActiveUIDocument.Document
+# uiapp = DocumentManager.Instance.CurrentUIApplication
+# app = uiapp.Application
+# uidoc = uiapp.ActiveUIDocument
 
 floors_up = {}
 floors_down = {}
