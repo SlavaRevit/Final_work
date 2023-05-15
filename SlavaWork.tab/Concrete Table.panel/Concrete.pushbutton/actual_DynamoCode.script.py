@@ -24,8 +24,8 @@ from Autodesk.DesignScript.Geometry import *
 clr.AddReference("RevitNodes")
 import Revit
 
-clr.ImportExtensions(Revit.Elements)
-clr.ImportExtensions(Revit.GeometryConversion)
+
+
 
 clr.AddReference("RevitServices")
 import RevitServices
