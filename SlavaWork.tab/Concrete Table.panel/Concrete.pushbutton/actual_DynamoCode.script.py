@@ -1034,8 +1034,8 @@ total_row_found = total_row_found.apply(pd.to_numeric, errors='ignore')
 # df['Area'] = pd.to_numeric(df['Area'], errors='coerce')
 # df['Volume'] = pd.to_numeric(df['Volume'], errors='coerce')
 
-df = df._append(total_row_found)
-df = df._append(total_row)
+df = df.append(total_row_found)
+df = df.append(total_row)
 df["V/A עובי ממוצע"] = (df["Volume"] / df["Area"]).round(2)
 
 
@@ -1145,4 +1145,4 @@ for row in worksheet.iter_rows():
         for cell in row:
             cell.fill = default_fill
 
-writer._save()
+writer.save()
