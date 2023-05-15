@@ -183,7 +183,7 @@ class UserInputDialog(Form):
 
         # Create labels and text boxes
         self.label = Label()
-        self.label.Text = "Please enter your input:"
+        self.label.Text = "enter the path to save the file:"
         self.label.Location = Point(10, 10)
         self.label.AutoSize = True
 

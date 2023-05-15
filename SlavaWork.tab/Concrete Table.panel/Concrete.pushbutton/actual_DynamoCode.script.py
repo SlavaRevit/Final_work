@@ -24,9 +24,6 @@ from Autodesk.DesignScript.Geometry import *
 clr.AddReference("RevitNodes")
 import Revit
 
-
-
-
 clr.AddReference("RevitServices")
 import RevitServices
 from RevitServices.Persistence import DocumentManager
@@ -960,7 +957,7 @@ df_name_Stairs = pd.DataFrame(index=['Stairs/מדרגות'])
 df_name_Slabedge = pd.DataFrame(index=['Wuta/ווטות מתחת לרצפה'])
 df_name_BasicPlate = pd.DataFrame(index=['Basic_Plate/פלטות יסוד'])
 df_name_Rafsody = pd.DataFrame(index=['Rafsody/רפסודה'])
-# df_name_Found_Head = pd.DataFrame(index=['Foundation Head/קורות קשר'])
+
 df_name_FOUNDATIONS = pd.DataFrame(index=['Foundations/יסודות'])
 
 
@@ -1055,7 +1052,7 @@ class UserInputDialog(Form):
 
         # Create labels and text boxes
         self.label = Label()
-        self.label.Text = "Please enter your input:"
+        self.label.Text = "enter the path to save the file:"
         self.label.Location = Point(10, 10)
         self.label.AutoSize = True
 
