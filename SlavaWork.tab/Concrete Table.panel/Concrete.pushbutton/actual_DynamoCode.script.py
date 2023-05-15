@@ -11,9 +11,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Color, Border, Side
 from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.utils import get_column_letter
+from  Autodesk.Revit.UI import TaskDialog, TaskDialogResult
 
-localapp = os.getenv(r'LOCALAPPDATA')
-sys.path.append(os.path.join(localapp, r'python-3.8.3-embed-amd64\Lib\site-packages'))
 
 import System
 from System import Array
@@ -1047,7 +1046,50 @@ df = df.fillna('')
 df = df.reindex(columns=["Area", "Volume", "Count", "Length", "V/A עובי ממוצע","יחס למר בנוי"])
 df = df.rename(columns={"Area": "Area/שטח", "Volume": "Volume/נפח", "Count": "יחידות/Count", "Length": "Length/אורך"})
 
-writer = pd.ExcelWriter(IN[1], engine='openpyxl')
+from System.Windows.Forms import Form, Button, Label, TextBox, DialogResult
+from System.Drawing import Point
+
+class UserInputDialog(Form):
+    def __init__(self):
+        self.Text = "User Input"
+
+        # Create labels and text boxes
+        self.label = Label()
+        self.label.Text = "Please enter your input:"
+        self.label.Location = Point(10, 10)
+        self.label.AutoSize = True
+
+        self.input_box = TextBox()
+        self.input_box.Location = Point(10, 30)
+        self.input_box.Width = 200
+
+        # Create OK and Cancel buttons
+        self.ok_button = Button()
+        self.ok_button.Text = "OK"
+        self.ok_button.DialogResult = DialogResult.OK
+        self.ok_button.Location = Point(10, 60)
+
+        self.cancel_button = Button()
+        self.cancel_button.Text = "Cancel"
+        self.cancel_button.DialogResult = DialogResult.Cancel
+        self.cancel_button.Location = Point(90, 60)
+
+        # Add controls to the form
+        self.Controls.Add(self.label)
+        self.Controls.Add(self.input_box)
+        self.Controls.Add(self.ok_button)
+        self.Controls.Add(self.cancel_button)
+
+
+# Create an instance of the custom dialog box and display it
+dialog = UserInputDialog()
+result = dialog.ShowDialog()
+
+if result == DialogResult.OK:
+    input_value = dialog.input_box.Text
+
+
+writer = pd.ExcelWriter(input_value, engine='openpyxl')
 df.to_excel(writer, sheet_name="שלד בניין (Concrete Build)", index=True)
 
 workbook = writer.book
@@ -1072,14 +1114,6 @@ column_dimension.width = 25
 red_fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='solid')
 _fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='solid')
 default_fill = PatternFill(start_color='00FFFFCC', end_color='00FFFFCC', fill_type='solid')
-#colorizing cell by name
-# for row in worksheet.iter_rows():
-#     for cell in row:
-#         if cell.value in ['Foundations/יסודות', "Floors/קומות", 'Beams/קורות', 'Walls/קירות',
-#                           'Columns/עמודי בטון', 'Stairs/מדרגות', 'Precast elements/אלמנטים מראש']:
-#             cell.fill = red_fill
-#         elif cell.value in ["Total foundation/בסיס כולל", "Total without foundation/סך הכל ללא בסיס"]:
-#             cell.fill = _fill
 
 values_to_colorize = ['Foundations/יסודות', "Floors/קומות", 'Beams/קורות', 'Walls/קירות',
                       'Columns/עמודי בטון', 'Stairs/מדרגות', 'Precast elements/אלמנטים מראש',"Total foundation/בסיס כולל","Total without foundation/סך הכל ללא בסיס"]
