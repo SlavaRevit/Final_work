@@ -144,7 +144,10 @@ for level in levels:
         wall_id = wall.GetTypeId()
         wall_type = doc.GetElement(wall_id)
         wall_WA = wall_type.LookupParameter("Wall Area").AsValueString()
-        wall_level_param = wall.LookupParameter("Base Constraint").AsValueString()
+        try:
+            wall_level_param = wall.LookupParameter("Base Constraint").AsValueString()
+        except:
+            pass
         wall_length = wall.LookupParameter("Length").AsDouble() * 0.3048
         wall_width_param = wall_type.LookupParameter("Width")
 
