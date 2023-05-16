@@ -79,7 +79,7 @@ for level in levels:
                                 "מפלס כפול": 0,
                                 "מפולשת": 0
                                 }
-try:
+
     for floor in floors:
         floor_id = floor.GetTypeId()
         floor_type = doc.GetElement(floor_id)
@@ -139,9 +139,6 @@ try:
 
             elif floor_TC == "overhang":
                 level_floors[level_name]["מפולשת"] += floor_area
-except:
-    pass
-
 try:
     for wall in walls:
         wall_id = wall.GetTypeId()
@@ -158,6 +155,8 @@ try:
             if wall_level_param == level_name:
                 if wall_WA == "Yes":
                     level_floors[level_name]["שטח מתחת לקירות"] += wall_Area_under
+except:
+    pass
 
     for beam in beams:
         beam_id = beam.GetTypeId()
@@ -175,8 +174,7 @@ try:
                 if beam_dtm == "Balcon":
                     level_floors[level_name]["שטח מתחת לקירות"] += beam_Area_under
 
-except:
-    pass
+
 
 
 arc_per = {"מגורים":1,
