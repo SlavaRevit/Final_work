@@ -79,7 +79,7 @@ for level in levels:
                                 "מפלס כפול": 0,
                                 "מפולשת": 0
                                 }
-
+try:
     for floor in floors:
         floor_id = floor.GetTypeId()
         floor_type = doc.GetElement(floor_id)
@@ -139,15 +139,15 @@ for level in levels:
 
             elif floor_TC == "overhang":
                 level_floors[level_name]["מפולשת"] += floor_area
+except:
+    pass
 
+try:
     for wall in walls:
         wall_id = wall.GetTypeId()
         wall_type = doc.GetElement(wall_id)
         wall_WA = wall_type.LookupParameter("Wall Area").AsValueString()
-        try:
-            wall_level_param = wall.LookupParameter("Base Constraint").AsValueString()
-        except:
-            pass
+        wall_level_param = wall.LookupParameter("Base Constraint").AsValueString()
         wall_length = wall.LookupParameter("Length").AsDouble() * 0.3048
         wall_width_param = wall_type.LookupParameter("Width")
 
@@ -174,6 +174,10 @@ for level in levels:
             if beam_level_param == level_name:
                 if beam_dtm == "Balcon":
                     level_floors[level_name]["שטח מתחת לקירות"] += beam_Area_under
+
+except:
+    pass
+
 
 arc_per = {"מגורים":1,
 "מדרגות":1,
