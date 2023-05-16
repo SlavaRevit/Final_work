@@ -684,7 +684,6 @@ def getting_Area_Volume_walls(walls_list):
             # going to WallType
             volume_param = new_w.LookupParameter("Volume")
             area_param = new_w.LookupParameter("Area")
-
             wall_type = new_w.WallType
             wall_duplicationTypeMark = wall_type.LookupParameter("Duplication Type Mark").AsString()
             wall_type_comments = wall_type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_COMMENTS).AsString()
@@ -692,12 +691,6 @@ def getting_Area_Volume_walls(walls_list):
             pass
 
         try:
-            if not wall_duplicationTypeMark:
-                pass
-
-            if wall_duplicationTypeMark == "skip":
-                pass
-
             if wall_duplicationTypeMark == "Slurry Bisus":
                 key = "Slurry Bisus/קיר סלארי ביסוס"
                 if key in slurry_Bisus:
@@ -748,7 +741,6 @@ def getting_Area_Volume_walls(walls_list):
 
             if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P"]:
                 if wall_type_comments == "FrIN":
-                    total = total + 1
                     wall_key = "קירות פנימיים מבטון/Walls-In"
                     if wall_key not in walls_in_new:
                         wall_area = area_param.AsDouble() * 0.092903
@@ -759,8 +751,6 @@ def getting_Area_Volume_walls(walls_list):
                         wall_volume = volume_param.AsDouble() * 0.0283168466
                         walls_in_new[wall_key]["Area"] += wall_area
                         walls_in_new[wall_key]["Volume"] += wall_volume
-
-
 
             if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P"]:
                 if wall_type_comments == "FrOut":
@@ -787,6 +777,9 @@ def getting_Area_Volume_walls(walls_list):
                         wall_volume = volume_param.AsDouble() * 0.0283168466
                         precast_elements[wall_key]["Area"] += wall_area
                         precast_elements[wall_key]["Volume"] += wall_volume
+
+
+
         except:
             pass
 
