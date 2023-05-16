@@ -131,8 +131,23 @@ str_per = {"חניון":1,
 "מפלס כפול":0.5
 };
 
+translate = {
+        "חניון": "Area parking",
+        "פתחים": "Elevator",
+        "מדרגות": "Opening",
+        "רמפות": "Stairs",
+        "מעלית": "Ramp",
+        "מעבר": "Transition",
+        "לובי": "Lobby",
+        "פירים וארונות": "Cabinetes",
+        "חדרים טכני ומחסנים": "TechRooms",
+        'סה"כ שטח קומה 100%': "Total Area",
+        'מפלס כפול': "Double level"
+    }
+
 row_with_index_arc = pd.Series(arc_per, name="אחוזים למשוקלל")
 row_with_index_str = pd.Series(str_per, name="אחוזים לשלד")
+row_with_index_translate = pd.Series(translate, name="Translate")
 
 dataframe = pd.DataFrame.from_dict(level_floors,
                                    orient="index",
@@ -150,7 +165,7 @@ dataframe = pd.DataFrame.from_dict(level_floors,
                                        'מפלס כפול']).round(1)
 
 
-
+dataframe = dataframe.append(row_with_index_translate)
 format_str = "{:.0%}"
 dataframe.loc['סה"כ 100%'] = dataframe.sum(axis=0)
 dataframe = dataframe.append(row_with_index_arc)
@@ -183,7 +198,7 @@ class UserInputDialog(Form):
 
         # Create labels and text boxes
         self.label = Label()
-        self.label.Text = "enter the path to save the file:"
+        self.label.Text = "Please enter your input:"
         self.label.Location = Point(10, 10)
         self.label.AutoSize = True
 
@@ -235,7 +250,7 @@ max_row = workbook.active.max_row
 # setting up formulas
 for i in range(min_column + 1, max_column + 1):
     letter = get_column_letter(i)
-    sheet[f"{letter}{max_row - 4}"] = f"=SUM({letter}{min_row + 1}:{letter}{max_row - 5})"
+    sheet[f"{letter}{max_row - 4}"] = f"=SUM({letter}{min_row + 1}:{letter}{max_row - 6})"
     sheet[f"{letter}{max_row - 2}"] = f"={letter}{max_row - 4}*{letter}{max_row - 3}"
     sheet[f"{letter}{max_row}"] = f"={letter}{max_row - 4}*{letter}{max_row - 1}"
     sheet[f"{letter}{max_row - 1}"].number_format = "0%"
@@ -249,14 +264,11 @@ col_end_2 = get_column_letter(max_column - 2)
 col_1 = get_column_letter(min_column + 1)
 col_2 = get_column_letter(min_column + 2)
 
-for n in range(min_row + 1, max_row - 4):
+for n in range(min_row + 1, max_row - 5):
     col_letter = get_column_letter(n)
     sheet[f"{col_1}{n}"] = f"={col_total}{n} - SUM({col_2}{n}:{col_end_2}{n})"
-
-sheet[
-    f"{col_total}{max_row - 2}"] = f"=SUM({col_1}{max_row - 2}:{col_end_2}{max_row - 2})+ ({get_column_letter(max_column)}{max_row-2})"
-sheet[
-    f"{col_total}{max_row}"] = f"=SUM({col_1}{max_row}:{col_end_2}{max_row}) + ({get_column_letter(max_column)}{max_row})"
+    sheet[f"{col_total}{max_row - 2}"] = f"=SUM({col_1}{max_row - 2}:{col_end_2}{max_row - 2})+ ({get_column_letter(max_column)}{max_row-2})"
+    sheet[f"{col_total}{max_row}"] = f"=SUM({col_1}{max_row}:{col_end_2}{max_row}) + ({get_column_letter(max_column)}{max_row})"
 
 # top row colorized
 for col_num, column_title in enumerate(dataframe.columns, 1):
