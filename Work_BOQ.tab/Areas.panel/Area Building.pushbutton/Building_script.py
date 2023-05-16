@@ -143,14 +143,18 @@ for level in levels:
 
             elif floor_dtm == "CeramicA":
                 level_floors[level_name]['check L.Area'] += floor_area
-try:
+
     for wall in walls:
         wall_id = wall.GetTypeId()
         wall_type = doc.GetElement(wall_id)
         wall_WA = wall_type.LookupParameter("Wall Area").AsValueString()
-        wall_level_param = wall.LookupParameter("Base Constraint").AsValueString()
-        wall_length = wall.LookupParameter("Length").AsDouble() * 0.3048
-        wall_width_param = wall_type.LookupParameter("Width")
+        try:
+            wall_level_param = wall.LookupParameter("Base Constraint").AsValueString()
+            wall_length = wall.LookupParameter("Length").AsDouble() * 0.3048
+            wall_width_param = wall_type.LookupParameter("Width")
+        except:
+            pass
+
 
         if wall_width_param is not None:
             level_name = level.Name
@@ -159,8 +163,6 @@ try:
             if wall_level_param == level_name:
                 if wall_WA == "Yes":
                     level_floors[level_name]["שטח מתחת לקירות"] += wall_Area_under
-except:
-    pass
 
     for beam in beams:
         beam_id = beam.GetTypeId()
