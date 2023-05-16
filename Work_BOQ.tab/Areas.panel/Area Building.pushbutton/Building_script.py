@@ -77,7 +77,8 @@ for level in levels:
                                 'סה"כ שטח קומה 100%': 0,
                                 "פרגולה": 0,
                                 "מפלס כפול": 0,
-                                "מפולשת": 0
+                                "מפולשת": 0,
+                                "check L.Area" : 0
                                 }
 
     for floor in floors:
@@ -139,6 +140,9 @@ for level in levels:
 
             elif floor_TC == "overhang":
                 level_floors[level_name]["מפולשת"] += floor_area
+
+            elif floor_dtm == "CeramicA":
+                level_floors[level_name]['check L.Area'] += floor_area
 try:
     for wall in walls:
         wall_id = wall.GetTypeId()
@@ -219,9 +223,31 @@ str_per = {"מגורים":1,
 "מפלס כפול":0.5,
 "מפולשת":0};
 
+translate = {"מגורים": "L.Area",
+"מדרגות":"Stairs",
+"פתחים":"Opening",
+"מעליות":"Elevator",
+"לובי קומתי":"Lobby",
+"מבואת כניסה":"MainLobby",
+"מועדון דיירים":"ClubRoom",
+"שטח צבורי":"CommonSpace",
+"מרפסת":"Balcon",
+"מסתור כביסה":"Kvisa",
+"מרפסת גג":"Terasa",
+"גג":"Roof",
+"גג עליון":"Top Roof",
+"מסחר":"Commerce",
+"גג קולונדה":"AreaRoofGallery",
+"שטח מתחת לקירות":"AreaUnderWalls",
+"חדרים טכני ומחסנים":"TechRooms",
+'סה"כ שטח קומה 100%' : "Total Area",
+"פרגולה":"Pergola",
+"מפלס כפול":"Double Level",
+"מפולשת":"Overhanging"}
 
 row_with_index_arc = pd.Series(arc_per, name="אחוזים למשוקלל")
 row_with_index_str = pd.Series(str_per, name="אחוזים לשלד")
+row_with_index_translate = pd.Series(translate, name="Translate")
 
 dataframe = pd.DataFrame.from_dict(level_floors,
                                    orient="index",
@@ -231,13 +257,14 @@ dataframe = pd.DataFrame.from_dict(level_floors,
                                             "מרפסת", "מסתור כביסה", "מרפסת גג", "גג", "גג עליון", "מסחר",
                                             "גג קולונדה", "שטח מתחת לקירות", "חדרים טכני ומחסנים", 'סה"כ שטח קומה 100%',
                                             "פרגולה", "מפלס כפול",
-                                            "מפולשת"]).round(1)
+                                            "מפולשת","check L.Area"]).round(1)
 
 df_to_sum = dataframe.loc[:, ["מדרגות", "פתחים", "מעליות", "לובי קומתי",
                               "מבואת כניסה", "מועדון דיירים",
                               "שטח צבורי", "מרפסת", "מסתור כביסה", "מרפסת גג", "גג", "גג עליון", "מסחר",
                               "גג קולונדה", "שטח מתחת לקירות", "חדרים טכני ומחסנים"]].sum(axis=1)
 
+dataframe = dataframe.append(row_with_index_translate)
 format_str = "{:.0%}"
 dataframe.loc['סה"כ 100%'] = dataframe.sum(axis=0)
 dataframe = dataframe.append(row_with_index_arc)
@@ -321,27 +348,24 @@ max_row = workbook.active.max_row
 # setting up formulas
 for i in range(min_column + 1, max_column + 1):
     letter = get_column_letter(i)
-    sheet[f"{letter}{max_row - 4}"] = f"=SUM({letter}{min_row + 1}:{letter}{max_row - 5})"
+    sheet[f"{letter}{max_row - 4}"] = f"=SUM({letter}{min_row + 1}:{letter}{max_row - 6})"
     sheet[f"{letter}{max_row - 2}"] = f"={letter}{max_row - 4}*{letter}{max_row - 3}"
     sheet[f"{letter}{max_row}"] = f"={letter}{max_row - 4}*{letter}{max_row - 1}"
     sheet[f"{letter}{max_row - 1}"].number_format = "0%"
     sheet[f"{letter}{max_row - 3}"].number_format = "0%"
 
-col_end_2 = get_column_letter(max_column - 2)
-col_total = get_column_letter(max_column - 3)
+col_end_2 = get_column_letter(max_column - 3)
+col_total = get_column_letter(max_column - 4)
 
-col_end_4 = get_column_letter(max_column - 4)
+col_end_4 = get_column_letter(max_column - 5)
 col_1 = get_column_letter(min_column + 1)
 col_2 = get_column_letter(min_column + 2)
 
-for n in range(min_row + 1, max_row - 4):
+for n in range(min_row + 1, max_row - 5):
     col_letter = get_column_letter(n)
     sheet[f"{col_1}{n}"] = f"={col_total}{n} - SUM({col_2}{n}:{col_end_4}{n})"
-
-sheet[
-    f"{col_total}{max_row - 2}"] = f"=SUM({col_1}{max_row - 2}:{col_end_4}{max_row - 2})+SUM({get_column_letter(max_column - 2)}{max_row - 2}:{get_column_letter(max_column)}{(max_row - 2)})"
-sheet[
-    f"{col_total}{max_row}"] = f"=SUM({col_1}{max_row}:{col_end_4}{max_row})+SUM({get_column_letter(max_column - 2)}{max_row}:{get_column_letter(max_column)}{(max_row)})"
+    sheet[f"{col_total}{max_row - 2}"] = f"=SUM({col_1}{max_row - 2}:{col_end_4}{max_row - 2})+SUM({get_column_letter(max_column - 3)}{max_row - 2}:{get_column_letter(max_column-1)}{(max_row - 2)})"
+    sheet[f"{col_total}{max_row}"] = f"=SUM({col_1}{max_row}:{col_end_4}{max_row})+SUM({get_column_letter(max_column - 3)}{max_row}:{get_column_letter(max_column-1)}{(max_row)})"
 
 # top row colorized
 for col_num, column_title in enumerate(dataframe.columns, 1):
