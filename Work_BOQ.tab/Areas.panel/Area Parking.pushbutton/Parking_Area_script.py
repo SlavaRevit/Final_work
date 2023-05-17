@@ -96,7 +96,7 @@ for level in levels:
                 level_floors[level_name]["לובי"] += floor_area
 
             elif floor_TC in ["Corridor", "Auxiliary"]:
-                level_floors[level_name]["שטח צבורי"] += floor_area
+                level_floors[level_name]["שטח ציבורי"] += floor_area
 
             elif floor_TC in ["Warehouse", "Technical", "Garbagee", "Service Cabinet", "Pump"]:
                 level_floors[level_name]["חדרים טכני ומחסנים"] += floor_area
@@ -115,7 +115,7 @@ arc_per  = {"חניון":1,
 "מעלית":1,
 "מעבר":1,
 "לובי":1,
-"שטח צבורי":1,
+"שטח ציבורי":1,
 "פירים וארונות":1,
 "חדרים טכני ומחסנים":1,
 "מפלס כפול":0
@@ -128,7 +128,7 @@ str_per = {"חניון":1,
 "מעלית":1,
 "מעבר":1,
 "לובי":1,
-"שטח צבורי":1,
+"שטח ציבורי":1,
 "פירים וארונות":1,
 "חדרים טכני ומחסנים":1,
 "מפלס כפול":0.5
@@ -142,7 +142,7 @@ translate = {
         "מעלית": "Ramp",
         "מעבר": "Transition",
         "לובי": "Lobby",
-        "שטח צבורי":"CommonSpace",
+        "שטח ציבורי":"CommonSpace",
         "פירים וארונות": "Cabinetes",
         "חדרים טכני ומחסנים": "TechRooms",
         'סה"כ שטח קומה 100%': "Total Area",
@@ -163,7 +163,7 @@ dataframe = pd.DataFrame.from_dict(level_floors,
                                        "מעלית",
                                        "מעבר",
                                        "לובי",
-                                       "שטח צבורי",
+                                       "שטח ציבורי",
                                        "פירים וארונות",
                                        "חדרים טכני ומחסנים",
                                        'סה"כ שטח קומה 100%',
