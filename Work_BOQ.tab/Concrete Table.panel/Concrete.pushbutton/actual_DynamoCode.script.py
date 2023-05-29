@@ -778,6 +778,17 @@ def getting_Area_Volume_walls(walls_list):
                         precast_elements[wall_key]["Area"] += wall_area
                         precast_elements[wall_key]["Volume"] += wall_volume
 
+            if wall_duplicationTypeMark == "Supporting":
+                wall_key = "קיר תומך/Supporting-walls"
+                if wall_key not in precast_elements:
+                    wall_area = area_param.AsDouble() * 0.092903
+                    wall_volume = volume_param.AsDouble() * 0.0283168466
+                    precast_elements[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                elif wall_key in precast_elements:
+                    wall_area = area_param.AsDouble() * 0.092903
+                    wall_volume = volume_param.AsDouble() * 0.0283168466
+                    precast_elements[wall_key]["Area"] += wall_area
+                    precast_elements[wall_key]["Volume"] += wall_volume
 
 
         except:
