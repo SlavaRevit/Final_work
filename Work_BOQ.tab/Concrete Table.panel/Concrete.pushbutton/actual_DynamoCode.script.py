@@ -791,6 +791,17 @@ def getting_Area_Volume_walls(walls_list):
                     supporting_walls[wall_key]["Area"] += wall_area
                     supporting_walls[wall_key]["Volume"] += wall_volume
 
+            if wall_duplicationTypeMark not in walls_in_new:
+                if wall_type_comments == "FrOut" or wall_type_comments == "FrIN":
+                    wall_key = "check DTM"
+                    wall_area = area_param.AsDouble() * 0.092903
+                    wall_volume = volume_param.AsDouble() * 0.0283168466
+                    walls_in_new[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                elif wall_duplicationTypeMark in walls_in_new:
+                    wall_area = area_param.AsDouble() * 0.092903
+                    wall_volume = volume_param.AsDouble() * 0.0283168466
+                    walls_in_new[wall_key]["Area"] += wall_area
+                    walls_in_new[wall_key]["Volume"] += wall_volume
 
         except:
             pass
@@ -1005,6 +1016,10 @@ for tuple_ in dataframe_total:
         df_name, df1, df2 = tuple_
         if not df1.empty or not df2.empty:
             non_empy_total_df.append(pd.concat([df_name, df1, df2]))
+    elif len(tuple_) == 4:
+        df_name, df1, df2, df3 = tuple_
+        if not df1.empty or not df2.empty or not df3.empty:
+            non_empy_total_df.append(pd.concat([df_name, df1, df2,df3]))
 
 df = pd.concat(non_empy_total_df, axis=0, sort=False).round(1)
 
