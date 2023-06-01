@@ -43,13 +43,14 @@ doc = __revit__.ActiveUIDocument.Document
 
 floors_up = {}
 floors_down = {}
-precast_elements = {}
 columns = {}
 beams = {}
 slurry_Bisus = {}
 slurry_Dipun = {}
 walls_in_new = {}
 walls_out_new = {}
+supporting_walls = {}
+precast_elements = {}
 Dipuns = {}
 Bisus = {}
 Basic_Plate = {}
@@ -780,15 +781,15 @@ def getting_Area_Volume_walls(walls_list):
 
             if wall_duplicationTypeMark == "Supporting":
                 wall_key = "קיר תומך/Supporting-walls"
-                if wall_key not in walls_in_new:
+                if wall_key not in supporting_walls:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    precast_elements[wall_key] = {"Area": wall_area, "Volume": wall_volume}
-                elif wall_key in walls_in_new:
+                    supporting_walls[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                elif wall_key in supporting_walls:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    precast_elements[wall_key]["Area"] += wall_area
-                    precast_elements[wall_key]["Volume"] += wall_volume
+                    supporting_walls[wall_key]["Area"] += wall_area
+                    supporting_walls[wall_key]["Volume"] += wall_volume
 
 
         except:
@@ -948,7 +949,7 @@ df_columns = pd.DataFrame.from_dict(columns, orient="index", columns=["Volume", 
 
 df_walls_in = pd.DataFrame.from_dict(walls_in_new, orient="index", columns=["Area", "Volume"])
 df_walls_out = pd.DataFrame.from_dict(walls_out_new, orient="index", columns=["Area", "Volume"])
-
+df_supporting = pd.DataFrame.from_dict(supporting_walls, orient="index", columns=["Area", "Volume"])
 """Inserting new nam of type_element"""
 # name_up = "Floors"
 df_name_floors_up = pd.DataFrame(index=["Floors/קומות"])
@@ -985,7 +986,7 @@ dataframe_total = [
     (df_name_beams, df_beams),
     (df_name_floors_up, df_floors_up, df_floors_down),
     (df_name_Columns, df_columns),
-    (df_name_walls, df_walls_in, df_walls_out),
+    (df_name_walls, df_walls_in, df_walls_out, df_supporting),
     (df_name_Stairs, df_stairs),
 ]
 non_empy_total_df = []
@@ -1013,13 +1014,15 @@ df_to_sum_without_foundation_volume = [df_beams["Volume"],
                                        df_columns["Volume"],
                                        df_walls_in["Volume"],
                                        df_walls_out["Volume"],
+                                       df_supporting["Volume"],
                                        df_stairs["Volume"],
                                        ]
 
 df_to_sum_without_foundation_area = [df_floors_up["Area"],
                                      df_floors_down["Area"],
                                      df_walls_in["Area"],
-                                     df_walls_out["Area"]]
+                                     df_walls_out["Area"],
+                                     df_supporting["Area"]]
 
 df_to_sum_found = [
     df_found_dipuns_sorted["Volume"],
