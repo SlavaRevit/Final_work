@@ -98,7 +98,7 @@ for level in levels:
             elif floor_TC in ["Corridor", "Auxiliary"]:
                 level_floors[level_name]["שטח ציבורי"] += floor_area
 
-            elif floor_TC in ["Warehouse", "Technical", "Garbagee", "Service Cabinet", "Pump"]:
+            elif floor_TC in ["Warehouse", "Technical", "Garbagee", "Service Cabinet", "Pump", "Water Room","Bicycle"]:
                 level_floors[level_name]["חדרים טכני ומחסנים"] += floor_area
 
             elif floor_dtm == "Total Floor Area":
