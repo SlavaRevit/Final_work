@@ -107,7 +107,7 @@ for level in levels:
             elif floor_TC == "Club room":
                 level_floors[level_name]["מועדון דיירים"] += floor_area
 
-            elif floor_TC in ["Corridor", "Bicycle", "Kindergarten", "Stroller", "Auxiliary","Water Room"]:
+            elif floor_TC in ["Corridor", "Bicycle", "Kindergarten", "Stroller", "Auxiliary"]:
                 level_floors[level_name]["שטח צבורי"] += floor_area
 
             elif floor_TC in ["Balcon", "Balcon Lux"]:
@@ -126,7 +126,7 @@ for level in levels:
                 level_floors[level_name]["מסחר"] += floor_area
             # this need to change to take walls and take it area
 
-            elif floor_TC in ["Warehouse", "Technical", "Garbagee", "Service Cabinet", "Pump"]:
+            elif floor_TC in ["Warehouse", "Technical", "Garbagee", "Service Cabinet", "Pump", "Water Room"]:
                 level_floors[level_name]["חדרים טכני ומחסנים"] += floor_area
 
             elif floor_dtm == "Total Floor Area":
