@@ -107,7 +107,7 @@ for level in levels:
             elif floor_TC == "Club room":
                 level_floors[level_name]["מועדון דיירים"] += floor_area
 
-            elif floor_TC in ["Corridor", "Bicycle", "Kindergarten", "Stroller", "Auxiliary"]:
+            elif floor_TC in ["Corridor", "Bicycle", "Kindergarten", "Stroller", "Auxiliary","Water Room"]:
                 level_floors[level_name]["שטח צבורי"] += floor_area
 
             elif floor_TC in ["Balcon", "Balcon Lux"]:
