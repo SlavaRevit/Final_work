@@ -81,19 +81,19 @@ def getiing_parameters_slab_edge(stairs_collector, floors_collector_forsteirs):
         if stair_type_elem:
             if parameter_Duplication == "Home" or parameter_Duplication == "Stairway" or parameter_Duplication == "Stairs":
                 parameter_vol = el.LookupParameter("Volume")
-                key = "Stairs/משטחי מדרגות ישרים (פודסטי ביניים ) ומדרגות מבטון"
+                key = "משטחי מדרגות ישרים (פודסטי ביניים ) ומדרגות מבטון"
                 if key not in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    Stairs[key] = {"Volume": parameter_value_vol}
+                    Stairs[key] = {"Volume": parameter_value_vol, "Translate":"Stairs"}
                 elif key in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     Stairs[key]["Volume"] += parameter_value_vol
             elif parameter_Duplication == "Demolished":
                 parameter_vol = el.LookupParameter("Volume")
-                key = "Stairs-Demolished/מדרגות-הרוס"
+                key = "מדרגות-הרוס"
                 if key not in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    Stairs[key] = {"Volume": parameter_value_vol}
+                    Stairs[key] = {"Volume": parameter_value_vol, "Translate":"Stairs-Demolished"}
                 elif key in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     Stairs[key]["Volume"] += parameter_value_vol
@@ -107,19 +107,19 @@ def getiing_parameters_slab_edge(stairs_collector, floors_collector_forsteirs):
         if floor_type_elem:
             if parameter_Duplication == "Landing-H" or parameter_Duplication == "Landing-S":
                 parameter_vol = el.LookupParameter("Volume")
-                key = "Stairs/משטחי מדרגות ישרים (פודסטי ביניים ) ומדרגות מבטון"
+                key = "משטחי מדרגות ישרים (פודסטי ביניים ) ומדרגות מבטון"
                 if key not in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    Stairs[key] = {"Volume": parameter_value_vol}
+                    Stairs[key] = {"Volume": parameter_value_vol,"Translate":"Stairs"}
                 elif key in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     Stairs[key]["Volume"] += parameter_value_vol
             if parameter_Duplication == "Demolished":
                 parameter_vol = el.LookupParameter("Volume")
-                key = "Stairs-Demolished/מדרגות-הרוס"
+                key = "מדרגות-הרוס"
                 if key not in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    Stairs[key] = {"Volume": parameter_value_vol}
+                    Stairs[key] = {"Volume": parameter_value_vol,"Translate":"Stairs-Demolished"}
                 elif key in Stairs:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     Stairs[key]["Volume"] += parameter_value_vol
@@ -156,11 +156,11 @@ def getiing_parameters_slab_edge(slab_edge_collector):
             elif parameter_Duplication == "Wuta":
                 parameter_vol = el.LookupParameter("Volume")
                 parameter_length = el.LookupParameter("Length")
-                key = "Wuta/ווטות מתחת לרצפה"
+                key = "ווטות מתחת לרצפה"
                 if key not in Slabedge:
                     parameter_length = parameter_length.AsDouble() * 0.3048
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    Slabedge[key] = {"Volume": parameter_value_vol, "Length": parameter_length}
+                    Slabedge[key] = {"Volume": parameter_value_vol, "Length": parameter_length,"Translate":"Wuta"}
                 elif key in Slabedge:
                     parameter_length = parameter_length.AsDouble() * 0.3048
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
@@ -170,11 +170,11 @@ def getiing_parameters_slab_edge(slab_edge_collector):
             elif parameter_Duplication == "CLSM":
                 parameter_vol = el.LookupParameter("Volume")
                 parameter_length = el.LookupParameter("Length")
-                key = "CLSM מתחת לרצפה"
+                key = "מתחת לרצפה"
                 if key not in Slabedge:
                     parameter_length = parameter_length.AsDouble() * 0.3048
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    Slabedge[key] = {"Volume": parameter_value_vol, "Length": parameter_length}
+                    Slabedge[key] = {"Volume": parameter_value_vol, "Length": parameter_length,"Translate":"CLSM"}
                 elif key in Slabedge:
                     parameter_length = parameter_length.AsDouble() * 0.3048
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
@@ -215,20 +215,20 @@ def getiing_parameters(columns_collector):
 
             if parameter_Duplication in ["Rec", "Round", "Eliptic"]:
                 parameter_vol = el.LookupParameter("Volume")
-                key = "Columns Regular/עמודי בטון"
+                key = "עמודי בטון"
                 if key not in columns:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    columns[key] = {"Volume": parameter_value_vol}
+                    columns[key] = {"Volume": parameter_value_vol,"Translate":"Columns Regular"}
                 elif key in columns:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     columns[key]["Volume"] += parameter_value_vol
 
             if parameter_Duplication == "Precast":
-                key_precast = "עמוד טרומי/Columns Precast"
+                key_precast = "עמוד טרומי"
                 parameter_vol = el.LookupParameter("Volume")
                 if key_precast not in precast_elements:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                    precast_elements[key_precast] = {"Volume": parameter_value_vol, "Count": 1}
+                    precast_elements[key_precast] = {"Volume": parameter_value_vol, "Count": 1, "Translate":"Columns Precast"}
                 elif key_precast in precast_elements:
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     precast_elements[key_precast]["Volume"] += parameter_value_vol
@@ -282,11 +282,11 @@ def getting_floors_parameters(floor_list):
                                                "Aggregate"]:
                 continue
             elif floor_duplicationTypeMark in ["Regular", "Balcon", "Terasa"]:
-                combined_key = "Regular_up/תקרת בטון"
+                combined_key = "תקרת בטון"
                 if combined_key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[combined_key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[combined_key] = {"Area": floor_area, "Volume": floor_volume, "Translate":"Regular_up"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -294,11 +294,11 @@ def getting_floors_parameters(floor_list):
                     floors_up[combined_key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Regular-T":
-                combined_key = "Transformation/תקרת טרנספורמציה מבטון"
+                combined_key = "תקרת טרנספורמציה מבטון"
                 if combined_key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[combined_key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[combined_key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Transformation"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -306,11 +306,11 @@ def getting_floors_parameters(floor_list):
                     floors_up[combined_key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Regular-P":
-                key = "תקרה דרוכה/Prestressed slab"
+                key = "תקרה דרוכה"
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Prestressed slab"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -318,11 +318,11 @@ def getting_floors_parameters(floor_list):
                     floors_up[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Regular-W Special":
-                key = "תקרת צלעות/Ribbed slab"
+                key = "תקרת צלעות"
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Ribbed slab"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -330,11 +330,11 @@ def getting_floors_parameters(floor_list):
                     floors_up[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Koteret":
-                key = "כותרת לעיבוי נגד חדירה/Koteret"
+                key = "כותרת לעיבוי נגד חדירה"
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Koteret"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -342,11 +342,11 @@ def getting_floors_parameters(floor_list):
                     floors_up[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Rampa":
-                key = "רמפה/Rampa"
+                key = "רמפה"
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Rampa"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -354,22 +354,22 @@ def getting_floors_parameters(floor_list):
                     floors_up[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Geoplast-D":
-                key = "תקרת צלעות במילוי גיאופלסט/Geoplast"
+                key = "תקרת צלעות במילוי גיאופלסט"
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Geoplast"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
                     floors_up[key]['Area'] += floor_area
                     floors_up[key]['Volume'] += floor_volume
             elif floor_duplicationTypeMark == "Slab":
-                key = 'לוח"ד/Hollow slabs'
+                key = 'לוח"ד'
                 if key not in precast_elements:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    precast_elements[key] = {"Area": floor_area, "Volume": floor_volume}
+                    precast_elements[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Hollow slabs"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -377,22 +377,22 @@ def getting_floors_parameters(floor_list):
                     precast_elements[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Completion":
-                key = 'השלמות יציקה בין לוחדים/Complitions_up'
+                key = 'השלמות יציקה בין לוחדים'
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Complitions_up"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
                     floors_up[key]['Area'] += floor_area
                     floors_up[key]['Volume'] += floor_volume
             elif floor_duplicationTypeMark == "Topping":
-                key = 'יציקת טופינג/Topping'
+                key = 'יציקת טופינג'
                 if key not in floors_up:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Topping"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -433,11 +433,11 @@ def getting_floors_parameters(floor_list):
                 continue
 
             elif floor_duplicationTypeMark in ["Regular", "Balcon", "Terasa"]:
-                combined_key = "Regular_dn/רצפת בטון"
+                combined_key = "רצפת בטון"
                 if combined_key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[combined_key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[combined_key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Regular_dn"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -445,11 +445,11 @@ def getting_floors_parameters(floor_list):
                     floors_down[combined_key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Rampa":
-                key = 'רמפה/Rampa_dn'
+                key = 'רמפה'
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Rampa_dn"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -457,11 +457,11 @@ def getting_floors_parameters(floor_list):
                     floors_down[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Slab-Rib Special":
-                key = 'רצפת צלעות/Ribbed floor'
+                key = 'רצפת צלעות'
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Ribbed floor"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -469,11 +469,11 @@ def getting_floors_parameters(floor_list):
                     floors_down[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Supporting":
-                key = 'רגל לקיר תומך/leg for supporting wall'
+                key = 'רגל לקיר תומך'
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"leg for supporting wall"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -481,11 +481,11 @@ def getting_floors_parameters(floor_list):
                     floors_down[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Lite Beton":
-                key = 'מצע בטון רזה מתחת לרצפת בטון/Lite Beton'
+                key = 'מצע בטון רזה מתחת לרצפת בטון'
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Lite Beton"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -493,11 +493,11 @@ def getting_floors_parameters(floor_list):
                     floors_down[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Completion":
-                key = 'השלמות יציקה מעל קורות/Dn_Complition'
+                key = 'השלמות יציקה מעל קורות'
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"Dn_Complition"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -505,11 +505,11 @@ def getting_floors_parameters(floor_list):
                     floors_down[key]['Volume'] += floor_volume
 
             elif floor_duplicationTypeMark == "Sidewalk":
-                key = 'מדרכות/Sidewalks'
+                key = 'מדרכות'
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume, "Translate":"Sidewalk"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -521,7 +521,7 @@ def getting_floors_parameters(floor_list):
                 if key not in floors_down:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume,"Translate":"CLSM"}
                 else:
                     floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                     floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -560,9 +560,9 @@ def beams_parameters(beam_list):
             continue
 
         elif custom_param == "Beam Anchor":
-            key = "Beam Anchor/קורת עוגנים"
+            key = "קורת עוגנים"
             if key not in beams:
-                beams[key] = {"Count": 1}
+                beams[key] = {"Count": 1, "Translate":"Beam Anchor"}
             else:
                 beams[key]['Count'] += 1
 
@@ -570,72 +570,72 @@ def beams_parameters(beam_list):
             pass
 
         elif custom_param == "Anchor Polymer":
-            key = "עוגנים פולימרים/Anchor Polymer"
+            key = "עוגנים פולימרים"
             if key not in beams:
-                beams[key] = {"Count": 1}
+                beams[key] = {"Count": 1,"Translate":"Anchor Polymer"}
             else:
                 beams[key]['Count'] += 1
 
         elif custom_param == "Anchor Steel":
-            key = "עוגנים/Anchor Steel"
+            key = "עוגנים"
             if key not in beams:
-                beams[key] = {"Count": 1}
+                beams[key] = {"Count": 1,"Translate":"Anchor Steel"}
             else:
                 beams[key]['Count'] += 1
 
 
         elif custom_param == "Precast":
-            key = "קורה טרומית/Precast"
+            key = "קורה טרומית"
             if key not in precast_elements:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                precast_elements[key] = {"Volume": beam_volume, "Count": 1}
+                precast_elements[key] = {"Volume": beam_volume, "Count": 1, "Translate":"Precast"}
             else:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                 precast_elements[key]['Volume'] += beam_volume
                 precast_elements[key]['Count'] += 1
 
         elif custom_param == "Concrete":
-            key = "קורת עוגנים מבטון/Beam Anchor Concrete "
+            key = "קורת עוגנים מבטון"
             if key not in beams:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                beams[key] = {"Volume": beam_volume, "Count": 1}
+                beams[key] = {"Volume": beam_volume, "Count": 1,"Translate":"Beam Anchor Concrete"}
             else:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                 beams[key]['Volume'] += beam_volume
                 beams[key]['Count'] += 1
 
         elif custom_param == "Foundation":
-            key = "קורת יסוד/Foundation "
+            key = "קורת יסוד"
             if key not in beams:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                beams[key] = {"Volume": beam_volume}
+                beams[key] = {"Volume": beam_volume,"Translate":"Foundation"}
             else:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                 beams[key]['Volume'] += beam_volume
 
         elif custom_param == "Head":
-            key = "קורת ראש כלונסאות דיפו/ Foundation Head "
+            key = "קורת ראש כלונסאות דיפו"
             if key not in beams:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                beams[key] = {"Volume": beam_volume}
+                beams[key] = {"Volume": beam_volume,"Translate":"Foundation Head"}
             else:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                 beams[key]['Volume'] += beam_volume
 
         elif custom_param == "Prestressed":
-            key = "קורת דרוכה/Beam presstressed"
+            key = "קורת דרוכה"
             if key not in beams:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                beams[key] = {"Volume": beam_volume}
+                beams[key] = {"Volume": beam_volume, "Translate":"Beam presstressed"}
             else:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                 beams[key]['Volume'] += beam_volume
 
         elif custom_param in ["Regular", "Balcon", "Transformation", "Pergola", "Belts", "Tapered", "Regular-T"]:
-            combined_key = "קורות בטון/Regular beams"
+            combined_key = "קורות בטון"
             if combined_key not in beams:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                beams[combined_key] = {"Volume": beam_volume}
+                beams[combined_key] = {"Volume": beam_volume, "Translate":"Regular Beams"}
             elif combined_key in beams:
                 beam_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                 beams[combined_key]['Volume'] += beam_volume
@@ -693,7 +693,7 @@ def getting_Area_Volume_walls(walls_list):
 
         try:
             if wall_duplicationTypeMark == "Slurry Bisus":
-                key = "Slurry Bisus/קיר סלארי ביסוס"
+                key = "קיר סלארי ביסוס"
                 if key in slurry_Bisus:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -702,10 +702,10 @@ def getting_Area_Volume_walls(walls_list):
                 elif key not in slurry_Bisus:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    slurry_Bisus[key] = {"Area": wall_area, "Volume": wall_volume}
+                    slurry_Bisus[key] = {"Area": wall_area, "Volume": wall_volume, "Translate":"Slurry Bisus"}
 
             if wall_duplicationTypeMark == "Slurry Dipun":
-                key = "Slurry Dipun/קיר סלארי דיפון"
+                key = "קיר סלארי דיפון"
                 if key in slurry_Dipun:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -714,14 +714,14 @@ def getting_Area_Volume_walls(walls_list):
                 elif key not in slurry_Dipun:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    slurry_Dipun[key] = {"Area": wall_area, "Volume": wall_volume}
+                    slurry_Dipun[key] = {"Area": wall_area, "Volume": wall_volume,"Translate":"Slurry Dipun"}
 
             if wall_duplicationTypeMark == "Demolished":
-                key = "Demolished/נהרס"
+                key = "נהרס"
                 if key not in walls_in_new:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    walls_in_new[key] = {"Area": wall_area, "Volume": wall_volume}
+                    walls_in_new[key] = {"Area": wall_area, "Volume": wall_volume,"Translate":"Demolished"}
                 elif key in walls_in_new:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -729,11 +729,11 @@ def getting_Area_Volume_walls(walls_list):
                     walls_in_new[key]["Volume"] += wall_volume
 
             if wall_duplicationTypeMark == "Existing":
-                key = "Existing/קיים"
+                key = "קיים"
                 if key not in walls_in_new:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    walls_in_new[key] = {"Area": wall_area, "Volume": wall_volume}
+                    walls_in_new[key] = {"Area": wall_area, "Volume": wall_volume,"Translate":"Existing"}
                 elif key in walls_in_new:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -742,11 +742,11 @@ def getting_Area_Volume_walls(walls_list):
 
             if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P"]:
                 if wall_type_comments == "FrIN":
-                    wall_key = "קירות פנימיים מבטון/Walls-In"
+                    wall_key = "קירות פנימיים מבטון"
                     if wall_key not in walls_in_new:
                         wall_area = area_param.AsDouble() * 0.092903
                         wall_volume = volume_param.AsDouble() * 0.0283168466
-                        walls_in_new[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                        walls_in_new[wall_key] = {"Area": wall_area, "Volume": wall_volume, 'Translate' : 'Walls-In'}
                     elif wall_key in walls_in_new:
                         wall_area = area_param.AsDouble() * 0.092903
                         wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -755,11 +755,11 @@ def getting_Area_Volume_walls(walls_list):
 
             if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P"]:
                 if wall_type_comments == "FrOut":
-                    wall_key = "קירות חוץ מבטון/Walls-Out"
+                    wall_key = "קירות חוץ מבטון"
                     if wall_key not in walls_out_new:
                         wall_area = area_param.AsDouble() * 0.092903
                         wall_volume = volume_param.AsDouble() * 0.0283168466
-                        walls_out_new[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                        walls_out_new[wall_key] = {"Area": wall_area, "Volume": wall_volume, "Translate":"Walls-Out"}
                     elif wall_key in walls_out_new:
                         wall_area = area_param.AsDouble() * 0.092903
                         wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -768,11 +768,11 @@ def getting_Area_Volume_walls(walls_list):
 
             if wall_duplicationTypeMark == "Precast":
                 if wall_type_comments == "FrOut":
-                    wall_key = "קירות טרומיים/Concrete-Precast"
+                    wall_key = "קירות טרומיים"
                     if wall_key not in precast_elements:
                         wall_area = area_param.AsDouble() * 0.092903
                         wall_volume = volume_param.AsDouble() * 0.0283168466
-                        precast_elements[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                        precast_elements[wall_key] = {"Area": wall_area, "Volume": wall_volume,"Translate":"Concrete-Precast"}
                     elif wall_key in precast_elements:
                         wall_area = area_param.AsDouble() * 0.092903
                         wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -780,11 +780,11 @@ def getting_Area_Volume_walls(walls_list):
                         precast_elements[wall_key]["Volume"] += wall_volume
 
             if wall_duplicationTypeMark == "Supporting":
-                wall_key = "קיר תומך/Supporting-walls"
+                wall_key = "קיר תומך"
                 if wall_key not in supporting_walls:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
-                    supporting_walls[wall_key] = {"Area": wall_area, "Volume": wall_volume}
+                    supporting_walls[wall_key] = {"Area": wall_area, "Volume": wall_volume,"Translate":"Supporting-walls"}
                 elif wall_key in supporting_walls:
                     wall_area = area_param.AsDouble() * 0.092903
                     wall_volume = volume_param.AsDouble() * 0.0283168466
@@ -849,8 +849,7 @@ def getting_Length_Volume_Count(found_list):
                         if key + parameter_Descr not in Dipuns:
                             parameter_value = parameter.AsDouble() * 0.3048
                             parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                            Dipuns[key + parameter_Descr] = {'Length': parameter_value, 'Volume': parameter_value_vol,
-                                                             'Count': 1}
+                            Dipuns[key + parameter_Descr] = {'Length': parameter_value, 'Volume': parameter_value_vol,'Count': 1}
                         else:
                             parameter_value = parameter.AsDouble() * 0.3048
                             parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
@@ -868,8 +867,7 @@ def getting_Length_Volume_Count(found_list):
                         if key + parameter_Descr not in Bisus:
                             parameter_value = parameter.AsDouble() * 0.3048
                             parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-                            Bisus[key + parameter_Descr] = {'Length': parameter_value, 'Volume': parameter_value_vol,
-                                                            'Count': 1}
+                            Bisus[key + parameter_Descr] = {'Length': parameter_value, 'Volume': parameter_value_vol,'Count': 1}
                         else:
                             parameter_value = parameter.AsDouble() * 0.3048
                             parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
@@ -886,11 +884,11 @@ def getting_Length_Volume_Count(found_list):
                 foundation_type = el.FloorType
                 foundation_duplicationTypeMark = foundation_type.LookupParameter("Duplication Type Mark").AsString()
                 if foundation_duplicationTypeMark == "Rafsody":
-                    key = "Rafsody/רפסודה"
+                    key = "רפסודה"
                     if key not in Rafsody:
                         foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
                         foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                        Rafsody[key] = {"Area": foundation_area, "Volume": foundation_volume}
+                        Rafsody[key] = {"Area": foundation_area, "Volume": foundation_volume,"Translate":"Rafsody"}
                     elif key in Rafsody:
                         foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
                         foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -898,23 +896,23 @@ def getting_Length_Volume_Count(found_list):
                         Rafsody[key]["Volume"] += foundation_volume
 
                 if foundation_duplicationTypeMark == "Basic Plate":
-                    key = "Basic Plate/פלטות יסוד"
+                    key = "פלטות יסוד"
                     if key not in Basic_Plate:
                         foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
                         foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                         Basic_Plate[key] = {"Area": foundation_area,
-                                            "Volume": foundation_volume}
+                                            "Volume": foundation_volume,"Translate":"Basic Plate"}
                     elif key in Basic_Plate:
                         foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
                         foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
                         Basic_Plate[key]["Area"] += foundation_area
                         Basic_Plate[key]["Volume"] += foundation_volume
                 if foundation_duplicationTypeMark == "Head":
-                    key = "Foundation Head/ראשי כלונס"
+                    key = "ראשי כלונס"
                     if key not in Found_Head:
                         foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
                         foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
-                        Found_Head[key] = {"Area": foundation_area, "Volume": foundation_volume}
+                        Found_Head[key] = {"Area": foundation_area, "Volume": foundation_volume,"Translate":"Foundation Head"}
                     elif key in Found_Head:
                         foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
                         foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
@@ -936,58 +934,68 @@ df_found_bisus_sorted = df_found_bisus.copy()
 # df_found_bisus_sorted.index = pd.to_numeric(df_found_bisus_sorted.index, errors="coerce")
 df_found_bisus_sorted = df_found_bisus_sorted.sort_index().fillna(0)
 
-df_found_without_DTM = pd.DataFrame.from_dict(Found_without_DTM, orient="index", columns=["Length", "Volume", "Count"])
+df_found_without_DTM = pd.DataFrame.from_dict(Found_without_DTM, orient="index", columns=["Length", "Volume", "Count","Translate"])
 
-df_found_Slurry_Bisus = pd.DataFrame.from_dict(slurry_Bisus, orient="index", columns=["Area", "Volume"])
-df_found_Slurry_Dipuns = pd.DataFrame.from_dict(slurry_Dipun, orient="index", columns=["Area", "Volume"])
+df_found_Slurry_Bisus = pd.DataFrame.from_dict(slurry_Bisus, orient="index", columns=["Area", "Volume","Translate"])
+df_found_Slurry_Dipuns = pd.DataFrame.from_dict(slurry_Dipun, orient="index", columns=["Area", "Volume","Translate"])
 
-df_Basic_Plate = pd.DataFrame.from_dict(Basic_Plate, orient="index", columns=["Area", "Volume"])
-df_Rafsody = pd.DataFrame.from_dict(Rafsody, orient="index", columns=["Area", "Volume"])
-df_Found_Head = pd.DataFrame.from_dict(Found_Head, orient="index", columns=["Area", "Volume"])
+df_Basic_Plate = pd.DataFrame.from_dict(Basic_Plate, orient="index", columns=["Area", "Volume", "Translate"])
+df_Rafsody = pd.DataFrame.from_dict(Rafsody, orient="index", columns=["Area", "Volume", "Translate"])
+df_Found_Head = pd.DataFrame.from_dict(Found_Head, orient="index", columns=["Area", "Volume","Translate"])
 
-df_floors_up = pd.DataFrame.from_dict(floors_up, orient="index", columns=["Area", "Volume"])
-df_floors_down = pd.DataFrame.from_dict(floors_down, orient="index", columns=["Area", "Volume"])
+df_floors_up = pd.DataFrame.from_dict(floors_up, orient="index", columns=["Area", "Volume", "Translate"])
+df_floors_down = pd.DataFrame.from_dict(floors_down, orient="index", columns=["Area", "Volume", "Translate"])
 
-df_beams = pd.DataFrame.from_dict(beams, orient="index", columns=["Volume", "Count"])
+df_beams = pd.DataFrame.from_dict(beams, orient="index", columns=["Volume", "Count", "Translate"])
 
-df_precast_elements = pd.DataFrame.from_dict(precast_elements, orient="index", columns=["Area", "Volume", "Count"])
+df_precast_elements = pd.DataFrame.from_dict(precast_elements, orient="index", columns=["Area", "Volume", "Count","Translate"])
 
-df_edges = pd.DataFrame.from_dict(Slabedge, orient="index", columns=["Volume", "Length"])
+df_edges = pd.DataFrame.from_dict(Slabedge, orient="index", columns=["Volume", "Length","Translate"])
 
-df_stairs = pd.DataFrame.from_dict(Stairs, orient="index", columns=["Volume"])
+df_stairs = pd.DataFrame.from_dict(Stairs, orient="index", columns=["Volume","Translate"])
 
-df_columns = pd.DataFrame.from_dict(columns, orient="index", columns=["Volume", "Count"])
+df_columns = pd.DataFrame.from_dict(columns, orient="index", columns=["Volume", "Count","Translate"])
 
-df_walls_in = pd.DataFrame.from_dict(walls_in_new, orient="index", columns=["Area", "Volume"])
-df_walls_out = pd.DataFrame.from_dict(walls_out_new, orient="index", columns=["Area", "Volume"])
-df_supporting = pd.DataFrame.from_dict(supporting_walls, orient="index", columns=["Area", "Volume"])
+df_walls_in = pd.DataFrame.from_dict(walls_in_new, orient="index", columns=["Area", "Volume", "Translate"])
+df_walls_out = pd.DataFrame.from_dict(walls_out_new, orient="index", columns=["Area", "Volume","Translate"])
+df_supporting = pd.DataFrame.from_dict(supporting_walls, orient="index", columns=["Area", "Volume","Translate"])
 """Inserting new nam of type_element"""
 # name_up = "Floors"
-df_name_floors_up = pd.DataFrame(index=["Floors/קומות"])
+df_name_floors_up = pd.DataFrame(index=["קומות"])
+df_name_floors_up['Translate'] = "Floors"
 # name_down = "Floors_Down"
 df_name_floors_down = pd.DataFrame(index=["Floors_Down"])
+df_name_floors_down['Translate'] = "Floors_down"
 # name_beams = "Beams"
-df_name_beams = pd.DataFrame(index=['Beams/קורות'])
+df_name_beams = pd.DataFrame(index=['קורות'])
+df_name_beams['Translate'] = 'Beams'
 # name_walls = "Walls"
-df_name_walls = pd.DataFrame(index=['Walls/קירות'])
+df_name_walls = pd.DataFrame(index=['קירות'])
+df_name_walls['Translate'] = 'Walls'
 # name_foundation = "Foundation"
-df_name_Dipuns = pd.DataFrame(index=['Dipuns/כלונסאות דיפון'])
+df_name_Dipuns = pd.DataFrame(index=['כלונסאות דיפון'])
 
-df_name_Bisus = pd.DataFrame(index=['Bisus/כלונסאות ביסוס'])
 
-df_name_Slurry_walls = pd.DataFrame(index=['Slurry walls/קירות דש'])
+df_name_Bisus = pd.DataFrame(index=['כלונסאות ביסוס'])
 
-df_name_Columns = pd.DataFrame(index=['Columns/עמודי בטון'])
+df_name_Slurry_walls = pd.DataFrame(index=['קירות דש'])
 
-df_name_precast_elements = pd.DataFrame(index=['Precast elements/אלמנטים מראש'])
+df_name_Columns = pd.DataFrame(index=['עמודות'])
+df_name_Columns['Translate'] = 'Columns'
+df_name_precast_elements = pd.DataFrame(index=['אלמנטים מראש'])
+df_name_precast_elements['Translate'] = 'Precast Elements'
 
-df_name_Stairs = pd.DataFrame(index=['Stairs/מדרגות'])
+# precast elemnts
 
-df_name_Slabedge = pd.DataFrame(index=['Wuta/ווטות מתחת לרצפה'])
-df_name_BasicPlate = pd.DataFrame(index=['Basic_Plate/פלטות יסוד'])
-df_name_Rafsody = pd.DataFrame(index=['Rafsody/רפסודה'])
+df_name_Stairs = pd.DataFrame(index=['מדרגות'])
+df_name_Stairs['Translate'] = 'Stairs'
 
-df_name_FOUNDATIONS = pd.DataFrame(index=['Foundations/יסודות'])
+df_name_Slabedge = pd.DataFrame(index=['ווטות מתחת לרצפה'])
+df_name_BasicPlate = pd.DataFrame(index=['פלטות יסוד'])
+df_name_Rafsody = pd.DataFrame(index=['רפסודה'])
+
+df_name_FOUNDATIONS = pd.DataFrame(index=['יסודות'])
+df_name_FOUNDATIONS['Translate'] = "Foundations"
 
 
 dataframe_total = [
@@ -1056,10 +1064,9 @@ df_sum_area = pd.concat(df_to_sum_without_foundation_area).sum().round(1)
 df_sum_volume_foundation = round(pd.concat(df_to_sum_found).sum(), 1)
 
 
-total_row = pd.Series({"Area": df_sum_area, "Volume": df_sum_volume, "Count": ""},
-                      name="Total without foundation/סך הכל ללא בסיס")
-total_row_found = pd.Series({"Area": "", "Volume": df_sum_volume_foundation, "Count": ""},
-                            name="Total foundation/בסיס כולל")
+total_row = pd.Series({"Area": df_sum_area, "Volume": df_sum_volume, "Count": "","Translate":"Total without foundation"},
+                      name="סך הכל ללא בסיס")
+total_row_found = pd.Series({"Area": "", "Volume": df_sum_volume_foundation, "Count": "", "Translate":"Total Foundation"},name="בסיס כולל")
 total_row = total_row.apply(pd.to_numeric, errors='ignore')
 total_row_found = total_row_found.apply(pd.to_numeric, errors='ignore')
 
@@ -1075,8 +1082,8 @@ df = df.fillna('')
 
 
 # changing position of columns
-df = df.reindex(columns=["Area", "Volume", "Count", "Length", "V/A עובי ממוצע","יחס למר בנוי"])
-df = df.rename(columns={"Area": "Area/שטח", "Volume": "Volume/נפח", "Count": "יחידות/Count", "Length": "Length/אורך"})
+df = df.reindex(columns=["Area", "Volume", "Count", "Length", "עובי ממוצע", "יחס למר בנוי", "Translate"])
+df = df.rename(columns={"Area": "שטח", "Volume": "נפח", "Count":"יחידות", "Length":"אורך", "Translate":"Translate"})
 
 from System.Windows.Forms import Form, Button, Label, TextBox, DialogResult
 from System.Drawing import Point
@@ -1147,8 +1154,9 @@ red_fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='
 _fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='solid')
 default_fill = PatternFill(start_color='00FFFFCC', end_color='00FFFFCC', fill_type='solid')
 
-values_to_colorize = ['Foundations/יסודות', "Floors/קומות", 'Beams/קורות', 'Walls/קירות',
-                      'Columns/עמודי בטון', 'Stairs/מדרגות', 'Precast elements/אלמנטים מראש',"Total foundation/בסיס כולל","Total without foundation/סך הכל ללא בסיס"]
+values_to_colorize = ['יסודות', "קומות", 'קורות', 'קירות',
+                      'עמודות', 'מדרגות', 'אלמנטים מראש',
+                      "בסיס כולל","סך הכל ללא בסיס"]
 
 # values_to_fill = ["Total foundation/בסיס כולל", "Total without foundation/סך הכל ללא בסיס"]
 
