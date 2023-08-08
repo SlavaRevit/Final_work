@@ -540,11 +540,18 @@ def getting_floors_parameters(floor_list):
                 floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
                 floors_down[floor_duplicationTypeMark] = {"Area": floor_area, "Volume": floor_volume}
 
+
             else:
-                floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
-                floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                floors_down[floor_duplicationTypeMark]["Area"] += floor_area
-                floors_down[floor_duplicationTypeMark]["Volume"] += floor_volume
+                key = floor_duplicationTypeMark
+                if key not in floors_down:
+                    floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
+                    floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
+                    floors_down[key] = {"Area": floor_area, "Volume": floor_volume}
+                else:
+                    floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
+                    floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
+                    floors_down[key]['Area'] += floor_area
+                    floors_down[key]['Volume'] += floor_volume
 
     return floors_up, floors_down
 
