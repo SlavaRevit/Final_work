@@ -258,7 +258,7 @@ def getting_floors_parameters(floor_list):
     for el in floor_list:
         floor_element = doc.GetElement(el)
         floor_type = floor_element.FloorType
-        floor_type_comments = floor_type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_COMMENTS).AsString()
+        floor_type_comments = floor_type.LookupParameter("Type Comments").AsString()
         floor_duplicationTypeMark = floor_type.LookupParameter("Duplication Type Mark").AsString()
         if floor_type_comments == "Up":
             if not floor_duplicationTypeMark:
@@ -399,16 +399,23 @@ def getting_floors_parameters(floor_list):
                     floors_up[key]['Area'] += floor_area
                     floors_up[key]['Volume'] += floor_volume
 
-            elif floor_duplicationTypeMark not in floors_up:
+            elif not floor_duplicationTypeMark:
                 floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                 floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
                 floors_up[floor_duplicationTypeMark] = {"Area": floor_area, "Volume": floor_volume}
 
             else:
-                floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
-                floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
-                floors_up[floor_duplicationTypeMark]["Area"] += floor_area
-                floors_up[floor_duplicationTypeMark]["Volume"] += floor_volume
+                key = floor_duplicationTypeMark
+                if key not in floors_up:
+                    floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
+                    floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
+                    floors_up[key] = {"Area": floor_area, "Volume": floor_volume}
+                else:
+                    floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
+                    floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
+                    floors_up[key]['Area'] += floor_area
+                    floors_up[key]['Volume'] += floor_volume
+
 
         elif floor_type_comments == "Down":
             if not floor_duplicationTypeMark:
@@ -528,7 +535,7 @@ def getting_floors_parameters(floor_list):
                     floors_down[key]['Area'] += floor_area
                     floors_down[key]['Volume'] += floor_volume
 
-            elif floor_duplicationTypeMark not in floors_down:
+            elif not floor_duplicationTypeMark:
                 floor_area = floor_element.LookupParameter("Area").AsDouble() * 0.092903
                 floor_volume = floor_element.LookupParameter("Volume").AsDouble() * 0.0283168466
                 floors_down[floor_duplicationTypeMark] = {"Area": floor_area, "Volume": floor_volume}
@@ -791,7 +798,7 @@ def getting_Area_Volume_walls(walls_list):
                     supporting_walls[wall_key]["Area"] += wall_area
                     supporting_walls[wall_key]["Volume"] += wall_volume
 
-            if wall_duplicationTypeMark not in walls_in_new:
+            if not wall_duplicationTypeMark:
                 if wall_type_comments == "FrOut" or wall_type_comments == "FrIN":
                     wall_key = "check DTM"
                     wall_area = area_param.AsDouble() * 0.092903
