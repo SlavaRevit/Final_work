@@ -705,7 +705,7 @@ def getting_Area_Volume_walls(walls_list):
             wall_type = new_w.WallType
             wall_duplicationTypeMark = wall_type.LookupParameter("Duplication Type Mark").AsString()
             wall_type_comments = wall_type.LookupParameter("Type Comments").AsString()
-            print(wall_type_comments)
+
         except:
             pass
 
