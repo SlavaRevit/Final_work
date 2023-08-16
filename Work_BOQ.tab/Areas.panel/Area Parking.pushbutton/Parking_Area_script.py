@@ -6,6 +6,9 @@ import clr
 import sys
 import pandas as pd
 
+clr.AddReference("System.Windows.Forms")
+from System.Windows.Forms import SaveFileDialog
+
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Color
@@ -197,45 +200,63 @@ dataframe = dataframe.replace("nan%", "")
 from System.Windows.Forms import Form, Button, Label, TextBox, DialogResult
 from System.Drawing import Point
 
-class UserInputDialog(Form):
-    def __init__(self):
-        self.Text = "User Input"
+# class UserInputDialog(Form):
+#     def __init__(self):
+#         self.Text = "User Input"
+#
+#         # Create labels and text boxes
+#         self.label = Label()
+#         self.label.Text = "Please enter your input:"
+#         self.label.Location = Point(10, 10)
+#         self.label.AutoSize = True
+#
+#         self.input_box = TextBox()
+#         self.input_box.Location = Point(10, 30)
+#         self.input_box.Width = 200
+#
+#         # Create OK and Cancel buttons
+#         self.ok_button = Button()
+#         self.ok_button.Text = "OK"
+#         self.ok_button.DialogResult = DialogResult.OK
+#         self.ok_button.Location = Point(10, 60)
+#
+#         self.cancel_button = Button()
+#         self.cancel_button.Text = "Cancel"
+#         self.cancel_button.DialogResult = DialogResult.Cancel
+#         self.cancel_button.Location = Point(90, 60)
+#
+#         # Add controls to the form
+#         self.Controls.Add(self.label)
+#         self.Controls.Add(self.input_box)
+#         self.Controls.Add(self.ok_button)
+#         self.Controls.Add(self.cancel_button)
+#
+#
+# # Create an instance of the custom dialog box and display it
+# dialog = UserInputDialog()
+# result = dialog.ShowDialog()
+#
+# if result == DialogResult.OK:
+#     input_value = dialog.input_box.Text
+def save_file_dialog():
+    save_dialog = SaveFileDialog()
 
-        # Create labels and text boxes
-        self.label = Label()
-        self.label.Text = "Please enter your input:"
-        self.label.Location = Point(10, 10)
-        self.label.AutoSize = True
+    # Set initial directory and file name (optional)
+    # save_dialog.InitialDirectory = "D:\\"
+    save_dialog.FileName = "my_file.xlsx"
 
-        self.input_box = TextBox()
-        self.input_box.Location = Point(10, 30)
-        self.input_box.Width = 200
+    # Set file filters (optional)
+    save_dialog.Filter = "Excel files (*.xlsx)|*.xlsx"
 
-        # Create OK and Cancel buttons
-        self.ok_button = Button()
-        self.ok_button.Text = "OK"
-        self.ok_button.DialogResult = DialogResult.OK
-        self.ok_button.Location = Point(10, 60)
+    result = save_dialog.ShowDialog()
 
-        self.cancel_button = Button()
-        self.cancel_button.Text = "Cancel"
-        self.cancel_button.DialogResult = DialogResult.Cancel
-        self.cancel_button.Location = Point(90, 60)
+    if result == DialogResult.OK:
+        selected_file = save_dialog.FileName
 
-        # Add controls to the form
-        self.Controls.Add(self.label)
-        self.Controls.Add(self.input_box)
-        self.Controls.Add(self.ok_button)
-        self.Controls.Add(self.cancel_button)
+        return selected_file
 
 
-# Create an instance of the custom dialog box and display it
-dialog = UserInputDialog()
-result = dialog.ShowDialog()
-
-if result == DialogResult.OK:
-    input_value = dialog.input_box.Text
-
+input_value = save_file_dialog()
 
 
 # export dataframe to excel
