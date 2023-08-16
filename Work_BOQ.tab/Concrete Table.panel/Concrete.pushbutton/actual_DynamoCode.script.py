@@ -6,6 +6,9 @@ import clr
 import sys
 import pandas as pd
 
+clr.AddReference("System.Windows.Forms")
+from System.Windows.Forms import SaveFileDialog
+
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Color, Border, Side
@@ -701,7 +704,8 @@ def getting_Area_Volume_walls(walls_list):
             area_param = new_w.LookupParameter("Area")
             wall_type = new_w.WallType
             wall_duplicationTypeMark = wall_type.LookupParameter("Duplication Type Mark").AsString()
-            wall_type_comments = wall_type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_COMMENTS).AsString()
+            wall_type_comments = wall_type.LookupParameter("Type Comments").AsString()
+            print(wall_type_comments)
         except:
             pass
 
@@ -1102,44 +1106,65 @@ df = df.rename(columns={"Area": "שטח", "Volume": "נפח", "Count":"יחיד�
 from System.Windows.Forms import Form, Button, Label, TextBox, DialogResult
 from System.Drawing import Point
 
-class UserInputDialog(Form):
-    def __init__(self):
-        self.Text = "User Input"
+# class UserInputDialog(Form):
+#     def __init__(self):
+#         self.Text = "User Input"
+#
+#         # Create labels and text boxes
+#         self.label = Label()
+#         self.label.Text = "enter the path to save the file:"
+#         self.label.Location = Point(10, 10)
+#         self.label.AutoSize = True
+#
+#         self.input_box = TextBox()
+#         self.input_box.Location = Point(10, 30)
+#         self.input_box.Width = 200
+#
+#         # Create OK and Cancel buttons
+#         self.ok_button = Button()
+#         self.ok_button.Text = "OK"
+#         self.ok_button.DialogResult = DialogResult.OK
+#         self.ok_button.Location = Point(10, 60)
+#
+#         self.cancel_button = Button()
+#         self.cancel_button.Text = "Cancel"
+#         self.cancel_button.DialogResult = DialogResult.Cancel
+#         self.cancel_button.Location = Point(90, 60)
+#
+#         # Add controls to the form
+#         self.Controls.Add(self.label)
+#         self.Controls.Add(self.input_box)
+#         self.Controls.Add(self.ok_button)
+#         self.Controls.Add(self.cancel_button)
+#
+#
+# # Create an instance of the custom dialog box and display it
+# dialog = UserInputDialog()
+# result = dialog.ShowDialog()
+#
+# if result == DialogResult.OK:
+#     input_value = dialog.input_box.Text
 
-        # Create labels and text boxes
-        self.label = Label()
-        self.label.Text = "enter the path to save the file:"
-        self.label.Location = Point(10, 10)
-        self.label.AutoSize = True
 
-        self.input_box = TextBox()
-        self.input_box.Location = Point(10, 30)
-        self.input_box.Width = 200
+"""_______SECOND WAY OF SAVING FILE_______"""
+def save_file_dialog():
+    save_dialog = SaveFileDialog()
 
-        # Create OK and Cancel buttons
-        self.ok_button = Button()
-        self.ok_button.Text = "OK"
-        self.ok_button.DialogResult = DialogResult.OK
-        self.ok_button.Location = Point(10, 60)
+    # Set initial directory and file name (optional)
+    # save_dialog.InitialDirectory = "D:\\"
+    save_dialog.FileName = "my_file.xlsx"
 
-        self.cancel_button = Button()
-        self.cancel_button.Text = "Cancel"
-        self.cancel_button.DialogResult = DialogResult.Cancel
-        self.cancel_button.Location = Point(90, 60)
+    # Set file filters (optional)
+    save_dialog.Filter = "Excel files (*.xlsx)|*.xlsx"
 
-        # Add controls to the form
-        self.Controls.Add(self.label)
-        self.Controls.Add(self.input_box)
-        self.Controls.Add(self.ok_button)
-        self.Controls.Add(self.cancel_button)
+    result = save_dialog.ShowDialog()
 
+    if result == DialogResult.OK:
+        selected_file = save_dialog.FileName
 
-# Create an instance of the custom dialog box and display it
-dialog = UserInputDialog()
-result = dialog.ShowDialog()
+        return selected_file
 
-if result == DialogResult.OK:
-    input_value = dialog.input_box.Text
+input_value = save_file_dialog()
 
 
 writer = pd.ExcelWriter(input_value, engine='openpyxl')
@@ -1167,6 +1192,7 @@ column_dimension.width = 25
 red_fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='solid')
 _fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='solid')
 default_fill = PatternFill(start_color='00FFFFCC', end_color='00FFFFCC', fill_type='solid')
+
 
 values_to_colorize = ['יסודות', "קומות", 'קורות', 'קירות',
                       'עמודות', 'מדרגות', 'אלמנטים מראש',
