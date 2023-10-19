@@ -26,7 +26,7 @@ elements_to_pass = ["STR_Concrete_Slab_Stairways", "STR_Air_Pergola_Wood", "STR_
                     'STR_Backfilling', 'STR_Concrete_Lite_Beton', 'STR_Concrete_Sidewalk', "STR_CLSM",
                     "STR_Concrete_Koteret",
                     "STR_Concrete_Topping", "STR_Polivid", "STR_Steel_Stairs_Landing", "STR_Geoplast",
-                    "STR_Concrete_Sloped", "STR_Concrete_protection"]
+                    "STR_Concrete_Sloped", "STR_Concrete_protection","Air_Pergola_Aluminium_AX"]
 
 
 def check_element(material_name, list_to_pass):
