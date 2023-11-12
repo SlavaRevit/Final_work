@@ -54,17 +54,26 @@ def get_element_params(element):
 
 
 def check_if_element_not_equal_to(param_to_check, level_name, dict, element_area, element_name, elevations_level):
-    if level_name not in dict:
-        dict[level_name] = {param_to_check: element_area, "Elements name": "\n" + element_name, "Elevation":elevations_level}
-    else:
-        if param_to_check not in dict[level_name]:
-            dict[level_name][param_to_check] = element_area
-        else:
-            dict[level_name][param_to_check] += element_area
-            if element_name in dict[level_name]['Elements name']:
-                pass
+    try:
+        if level_name not in dict:
+            if not element_name:
+                dict[level_name] = {param_to_check: element_area, "Elements name": "",
+                    "Elevation": elevations_level}
             else:
-                dict[level_name]['Elements name'] += "\n" + element_name
+                dict[level_name] = {param_to_check: element_area, "Elements name": "\n" + element_name,
+                                    "Elevation": elevations_level}
+        else:
+            if param_to_check not in dict[level_name]:
+                dict[level_name][param_to_check] = element_area
+            else:
+                dict[level_name][param_to_check] += element_area
+                if 'Elements name' not in dict[level_name]:
+                    dict[level_name]['Elements name'] = element_name
+                else:
+                    dict[level_name]['Elements name'] += "\n" + element_name
+
+    except Exception as err:
+        print("Level name is:",level_name, "Error: ",err)
 
 
 total_check = {}
