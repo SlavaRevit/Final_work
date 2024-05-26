@@ -108,7 +108,6 @@ def getiing_parameters_stairs(doc, stairs_collector, floors_collector_forsteirs)
     for el in stairs_collector:
         stair_type_id = el.GetTypeId()
         stair_type_elem = doc.GetElement(stair_type_id)
-        print(stair_type_elem)
         parameter_Duplication = stair_type_elem.LookupParameter("Duplication Type Mark").AsString()
         if stair_type_elem:
             if parameter_Duplication == "Home" or parameter_Duplication == "Stairway" or parameter_Duplication == "Stairs":
@@ -132,29 +131,29 @@ def getiing_parameters_stairs(doc, stairs_collector, floors_collector_forsteirs)
             else:
                 pass
 
-    # for el in floors_collector_forsteirs:
-    #     floor_type_id = el.GetTypeId()
-    #     floor_type_elem = doc.GetElement(floor_type_id)
-    #     parameter_Duplication = floor_type_elem.LookupParameter("Duplication Type Mark").AsString()
-    #     if floor_type_elem:
-    #         if parameter_Duplication == "Landing-H" or parameter_Duplication == "Landing-S":
-    #             parameter_vol = el.LookupParameter("Volume")
-    #             key = "משטחי מדרגות ישרים (פודסטי ביניים ) ומדרגות מבטון"
-    #             if key not in Stairs:
-    #                 parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-    #                 Stairs[key] = {"Volume": parameter_value_vol,"Translate":"Stairs"}
-    #             elif key in Stairs:
-    #                 parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-    #                 Stairs[key]["Volume"] += parameter_value_vol
-    #         if parameter_Duplication == "Demolished":
-    #             parameter_vol = el.LookupParameter("Volume")
-    #             key = "מדרגות-הרוס"
-    #             if key not in Stairs:
-    #                 parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-    #                 Stairs[key] = {"Volume": parameter_value_vol,"Translate":"Stairs-Demolished"}
-    #             elif key in Stairs:
-    #                 parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
-    #                 Stairs[key]["Volume"] += parameter_value_vol
+    for el in floors_collector_forsteirs:
+        floor_type_id = el.GetTypeId()
+        floor_type_elem = doc.GetElement(floor_type_id)
+        parameter_Duplication = floor_type_elem.LookupParameter("Duplication Type Mark").AsString()
+        if floor_type_elem:
+            if parameter_Duplication == "Landing-H" or parameter_Duplication == "Landing-S":
+                parameter_vol = el.LookupParameter("Volume")
+                key = "משטחי מדרגות ישרים (פודסטי ביניים ) ומדרגות מבטון"
+                if key not in Stairs:
+                    parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
+                    Stairs[key] = {"Volume": parameter_value_vol,"Translate":"Stairs"}
+                elif key in Stairs:
+                    parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
+                    Stairs[key]["Volume"] += parameter_value_vol
+            if parameter_Duplication == "Demolished":
+                parameter_vol = el.LookupParameter("Volume")
+                key = "מדרגות-הרוס"
+                if key not in Stairs:
+                    parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
+                    Stairs[key] = {"Volume": parameter_value_vol,"Translate":"Stairs-Demolished"}
+                elif key in Stairs:
+                    parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
+                    Stairs[key]["Volume"] += parameter_value_vol
 
 def getiing_parameters_slabedge(doc, slab_edge_collector):
     for el in slab_edge_collector:
