@@ -85,6 +85,7 @@ for level in levels:
                                 }
 
     for floor in floors:
+        print('last update from slava')
         floor_id = floor.GetTypeId()
         floor_type = doc.GetElement(floor_id)
         floor_dtm = floor_type.LookupParameter("Duplication Type Mark").AsString()
