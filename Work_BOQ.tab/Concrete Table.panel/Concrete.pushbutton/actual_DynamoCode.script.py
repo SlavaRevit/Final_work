@@ -61,7 +61,7 @@ Found_Head = {}
 Rafsody = {}
 Slabedge = {}
 Found_without_DTM = {}
-"""________Stairs________"""
+Stairs = {}
 
 stairs_collector = FilteredElementCollector(doc). \
     OfCategory(BuiltInCategory.OST_Stairs). \
@@ -73,10 +73,38 @@ floors_collector_forsteirs = FilteredElementCollector(doc). \
     WhereElementIsNotElementType(). \
     ToElements()
 
-Stairs = {}
+beams_collector = FilteredElementCollector(doc). \
+    OfCategory(BuiltInCategory.OST_StructuralFraming). \
+    WhereElementIsNotElementType(). \
+    ToElements()
+    
+slab_edge_collector = FilteredElementCollector(doc). \
+    OfCategory(BuiltInCategory.OST_EdgeSlab). \
+    WhereElementIsNotElementType(). \
+    ToElements()
+  
+columns_collector = FilteredElementCollector(doc). \
+    OfCategory(BuiltInCategory.OST_StructuralColumns). \
+    WhereElementIsNotElementType(). \
+    ToElements()
+
+floors_collector = FilteredElementCollector(doc). \
+    OfCategory(BuiltInCategory.OST_Floors). \
+    WhereElementIsNotElementType(). \
+    ToElementIds()
+
+wall_collector = FilteredElementCollector(doc). \
+    OfCategory(BuiltInCategory.OST_Walls). \
+    WhereElementIsNotElementType(). \
+    ToElementIds()
+    
+foundation_collector = FilteredElementCollector(doc). \
+    OfCategory(BuiltInCategory.OST_StructuralFoundation). \
+    WhereElementIsNotElementType(). \
+    ToElements()
 
 
-def getiing_parameters_slab_edge(stairs_collector, floors_collector_forsteirs):
+def getiing_parameters_stairs(doc, stairs_collector, floors_collector_forsteirs):
     for el in stairs_collector:
         stair_type_id = el.GetTypeId()
         stair_type_elem = doc.GetElement(stair_type_id)
@@ -102,7 +130,7 @@ def getiing_parameters_slab_edge(stairs_collector, floors_collector_forsteirs):
                     Stairs[key]["Volume"] += parameter_value_vol
             else:
                 pass
-# region important
+
     for el in floors_collector_forsteirs:
         floor_type_id = el.GetTypeId()
         floor_type_elem = doc.GetElement(floor_type_id)
@@ -127,17 +155,7 @@ def getiing_parameters_slab_edge(stairs_collector, floors_collector_forsteirs):
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     Stairs[key]["Volume"] += parameter_value_vol
 
-
-getiing_parameters_slab_edge(stairs_collector, floors_collector_forsteirs)
-
-"""________SlabEdge________"""
-slab_edge_collector = FilteredElementCollector(doc). \
-    OfCategory(BuiltInCategory.OST_EdgeSlab). \
-    WhereElementIsNotElementType(). \
-    ToElements()
-
-# endregion
-def getiing_parameters_slab_edge(slab_edge_collector):
+def getiing_parameters_slabedge(doc, slab_edge_collector):
     for el in slab_edge_collector:
         edge_type_id = el.GetTypeId()
         edge_type_elem = doc.GetElement(edge_type_id)
@@ -197,17 +215,7 @@ def getiing_parameters_slab_edge(slab_edge_collector):
                     Slabedge[parameter_Duplication]["Volume"] += parameter_value_vol
                     Slabedge[parameter_Duplication]["Length"] += parameter_length
 
-
-getiing_parameters_slab_edge(slab_edge_collector)
-
-"""________COLUMNS________"""
-columns_collector = FilteredElementCollector(doc). \
-    OfCategory(BuiltInCategory.OST_StructuralColumns). \
-    WhereElementIsNotElementType(). \
-    ToElements()
-
-
-def getiing_parameters(columns_collector):
+def getiing_parameters(doc, columns_collector):
     for el in columns_collector:
         col_type_id = el.GetTypeId()
         col_type_elem = doc.GetElement(col_type_id)
@@ -247,22 +255,15 @@ def getiing_parameters(columns_collector):
                     parameter_value_vol = parameter_vol.AsDouble() * 0.0283168466
                     columns[key]["Volume"] += parameter_value_vol
 
-
-getiing_parameters(columns_collector)
-
-"""________FLOORS________"""
-floors_collector = FilteredElementCollector(doc). \
-    OfCategory(BuiltInCategory.OST_Floors). \
-    WhereElementIsNotElementType(). \
-    ToElementIds()
-
-
-def getting_floors_parameters(floor_list):
+def getting_floors_parameters(doc, floor_list):
     for el in floor_list:
-        floor_element = doc.GetElement(el)
-        floor_type = floor_element.FloorType
-        floor_type_comments = floor_type.LookupParameter("Type Comments").AsString()
-        floor_duplicationTypeMark = floor_type.LookupParameter("Duplication Type Mark").AsString()
+        try:
+          floor_element = doc.GetElement(el)
+          floor_type = floor_element.FloorType
+          floor_type_comments = floor_type.LookupParameter("Type Comments").AsString()
+          floor_duplicationTypeMark = floor_type.LookupParameter("Duplication Type Mark").AsString()  
+        except:
+          pass
         if floor_type_comments == "Up":
             if not floor_duplicationTypeMark:
                 key = "DTM empty Up_floors"
@@ -558,17 +559,7 @@ def getting_floors_parameters(floor_list):
 
     return floors_up, floors_down
 
-
-getting_floors_parameters(floors_collector)
-
-"""________BEAMS________"""
-beams_collector = FilteredElementCollector(doc). \
-    OfCategory(BuiltInCategory.OST_StructuralFraming). \
-    WhereElementIsNotElementType(). \
-    ToElements()
-
-
-def beams_parameters(beam_list):
+def beams_parameters(doc, beam_list):
     for el in beam_list:
         element_type = doc.GetElement(el.GetTypeId())
         custom_param = element_type.LookupParameter("Duplication Type Mark").AsString()
@@ -685,18 +676,8 @@ def beams_parameters(beam_list):
 
     return beams
 
-
-beams_parameters(beams_collector)
-
-"""________Walls________"""
-wall_collector = FilteredElementCollector(doc). \
-    OfCategory(BuiltInCategory.OST_Walls). \
-    WhereElementIsNotElementType(). \
-    ToElementIds()
-
-
-def getting_Area_Volume_walls(walls_list):
-    for wall in wall_collector:
+def getting_Area_Volume_walls(doc, walls_list):
+    for wall in walls_list:
         try:
             new_w = doc.GetElement(wall)
             # going to WallType
@@ -758,7 +739,7 @@ def getting_Area_Volume_walls(walls_list):
                     walls_in_new[key]["Area"] += wall_area
                     walls_in_new[key]["Volume"] += wall_volume
 
-            if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P"]:
+            if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P", "Concrete-Pool"]:
                 if wall_type_comments == "FrIN":
                     wall_key = "קירות פנימיים מבטון"
                     if wall_key not in walls_in_new:
@@ -771,7 +752,7 @@ def getting_Area_Volume_walls(walls_list):
                         walls_in_new[wall_key]["Area"] += wall_area
                         walls_in_new[wall_key]["Volume"] += wall_volume
 
-            if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P"]:
+            if wall_duplicationTypeMark in ["Concrete", "Concrete-WR", "Concrete-P", "Concrete-Pool"]:
                 if wall_type_comments == "FrOut":
                     wall_key = "קירות חוץ מבטון"
                     if wall_key not in walls_out_new:
@@ -824,17 +805,7 @@ def getting_Area_Volume_walls(walls_list):
         except:
             pass
 
-
-getting_Area_Volume_walls(wall_collector)
-
-"""________Foundations________"""
-foundation_collector = FilteredElementCollector(doc). \
-    OfCategory(BuiltInCategory.OST_StructuralFoundation). \
-    WhereElementIsNotElementType(). \
-    ToElements()
-
-
-def getting_Length_Volume_Count(found_list):
+def getting_Length_Volume_Count(doc, found_list):
     for el in found_list:
         if el.Category.Name == "Structural Foundations":
             if isinstance(el, FamilyInstance):
@@ -892,6 +863,18 @@ def getting_Length_Volume_Count(found_list):
                             Bisus[key + parameter_Descr]['Length'] += parameter_value
                             Bisus[key + parameter_Descr]['Volume'] += parameter_value_vol
                             Bisus[key + parameter_Descr]['Count'] += 1
+                            
+                    elif parameter_Duplication == "Head":
+                        key = "ראשי כלונס"
+                        if key not in Found_Head:
+                            foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
+                            foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
+                            Found_Head[key] = {"Area": foundation_area, "Volume": foundation_volume,"Translate":"Foundation Head"}
+                        elif key in Found_Head:
+                            foundation_area = el.LookupParameter("Area").AsDouble() * 0.092903
+                            foundation_volume = el.LookupParameter("Volume").AsDouble() * 0.0283168466
+                            Found_Head[key]["Area"] += foundation_area
+                            Found_Head[key]["Volume"] += foundation_volume
 
                 else:
                     pass
@@ -939,8 +922,51 @@ def getting_Length_Volume_Count(found_list):
 
     return Dipuns, Bisus, Rafsody, Basic_Plate, Found_Head, Found_without_DTM
 
+def process_linked_documents():
+    linked_docs = FilteredElementCollector(doc).OfClass(RevitLinkInstance)
+    for link in linked_docs:
+        link_doc = link.GetLinkDocument()
+        if link_doc:
+            stairs_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_Stairs).WhereElementIsNotElementType().ToElements()
+            floors_collector_forsteirs = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElements()
+            slab_edge_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_EdgeSlab).WhereElementIsNotElementType().ToElements()
+            columns_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_StructuralColumns).WhereElementIsNotElementType().ToElements()
+            floors_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElementIds()
+            beams_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_StructuralFraming).WhereElementIsNotElementType().ToElements()
+            wall_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType().ToElementIds()
+            foundation_collector = FilteredElementCollector(link_doc).OfCategory(BuiltInCategory.OST_StructuralFoundation).WhereElementIsNotElementType().ToElements()
 
-getting_Length_Volume_Count(foundation_collector)
+            getiing_parameters_stairs(link_doc, stairs_collector, floors_collector_forsteirs)
+            getiing_parameters_slabedge(link_doc, slab_edge_collector)
+            getiing_parameters(link_doc, columns_collector)
+            getting_floors_parameters(link_doc, floors_collector)
+            beams_parameters(link_doc, beams_collector)
+            getting_Area_Volume_walls(link_doc, wall_collector)
+            getting_Length_Volume_Count(link_doc, foundation_collector)
+
+# Process the main document
+stairs_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Stairs).WhereElementIsNotElementType().ToElements()
+floors_collector_forsteirs = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElements()
+slab_edge_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_EdgeSlab).WhereElementIsNotElementType().ToElements()
+columns_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_StructuralColumns).WhereElementIsNotElementType().ToElements()
+floors_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElementIds()
+beams_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_StructuralFraming).WhereElementIsNotElementType().ToElements()
+wall_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType().ToElementIds()
+foundation_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_StructuralFoundation).WhereElementIsNotElementType().ToElements()
+
+
+getiing_parameters_stairs(doc, stairs_collector, floors_collector_forsteirs)
+getiing_parameters_slabedge(doc, slab_edge_collector)
+getiing_parameters(doc, columns_collector)
+getting_floors_parameters(doc, floors_collector)
+beams_parameters(doc, beams_collector)
+getting_Area_Volume_walls(doc, wall_collector)
+getting_Length_Volume_Count(doc, foundation_collector)
+
+# Process linked documents
+process_linked_documents()
+
+
 """________Creating_Excel_File________"""
 df_found_dipuns = pd.DataFrame.from_dict(Dipuns, orient="index", columns=["Length", "Volume", "Count"])
 df_found_dipuns_sorted = df_found_dipuns.copy()
@@ -1004,7 +1030,6 @@ df_name_precast_elements = pd.DataFrame(index=['אלמנטים מראש'])
 df_name_precast_elements['Translate'] = 'Precast Elements'
 
 # precast elemnts
-
 df_name_Stairs = pd.DataFrame(index=['מדרגות'])
 df_name_Stairs['Translate'] = 'Stairs'
 
@@ -1088,9 +1113,6 @@ total_row_found = pd.Series({"Area": "", "Volume": df_sum_volume_foundation, "Co
 total_row = total_row.apply(pd.to_numeric, errors='ignore')
 total_row_found = total_row_found.apply(pd.to_numeric, errors='ignore')
 
-# df['Area'] = pd.to_numeric(df['Area'], errors='coerce')
-# df['Volume'] = pd.to_numeric(df['Volume'], errors='coerce')
-
 df = df.append(total_row_found)
 df = df.append(total_row)
 df["V/A עובי ממוצע"] = (df["Volume"] / df["Area"]).round(2)
@@ -1106,52 +1128,9 @@ df = df.rename(columns={"Area": "שטח", "Volume": "נפח", "Count":"יחיד�
 from System.Windows.Forms import Form, Button, Label, TextBox, DialogResult
 from System.Drawing import Point
 
-# class UserInputDialog(Form):
-#     def __init__(self):
-#         self.Text = "User Input"
-#
-#         # Create labels and text boxes
-#         self.label = Label()
-#         self.label.Text = "enter the path to save the file:"
-#         self.label.Location = Point(10, 10)
-#         self.label.AutoSize = True
-#
-#         self.input_box = TextBox()
-#         self.input_box.Location = Point(10, 30)
-#         self.input_box.Width = 200
-#
-#         # Create OK and Cancel buttons
-#         self.ok_button = Button()
-#         self.ok_button.Text = "OK"
-#         self.ok_button.DialogResult = DialogResult.OK
-#         self.ok_button.Location = Point(10, 60)
-#
-#         self.cancel_button = Button()
-#         self.cancel_button.Text = "Cancel"
-#         self.cancel_button.DialogResult = DialogResult.Cancel
-#         self.cancel_button.Location = Point(90, 60)
-#
-#         # Add controls to the form
-#         self.Controls.Add(self.label)
-#         self.Controls.Add(self.input_box)
-#         self.Controls.Add(self.ok_button)
-#         self.Controls.Add(self.cancel_button)
-#
-#
-# # Create an instance of the custom dialog box and display it
-# dialog = UserInputDialog()
-# result = dialog.ShowDialog()
-#
-# if result == DialogResult.OK:
-#     input_value = dialog.input_box.Text
 
-
-"""_______SECOND WAY OF SAVING FILE_______"""
 def save_file_dialog():
     save_dialog = SaveFileDialog()
-
-    # Set initial directory and file name (optional)
-    # save_dialog.InitialDirectory = "D:\\"
     save_dialog.FileName = "my_file.xlsx"
 
     # Set file filters (optional)
@@ -1165,7 +1144,6 @@ def save_file_dialog():
         return selected_file
 
 input_value = save_file_dialog()
-
 
 writer = pd.ExcelWriter(input_value, engine='openpyxl')
 df.to_excel(writer, sheet_name="שלד בניין (Concrete Build)", index=True)
@@ -1193,14 +1171,10 @@ red_fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='
 _fill = PatternFill(start_color='00CCCCFF', end_color='00CCCCFF', fill_type='solid')
 default_fill = PatternFill(start_color='00FFFFCC', end_color='00FFFFCC', fill_type='solid')
 
-
 values_to_colorize = ['יסודות', "קומות", 'קורות', 'קירות',
                       'עמודות', 'מדרגות', 'אלמנטים מראש',
                       "בסיס כולל","סך הכל ללא בסיס"]
 
-# values_to_fill = ["Total foundation/בסיס כולל", "Total without foundation/סך הכל ללא בסיס"]
-
-# Create a separate PatternFill object for the row's fill color
 row_fill = red_fill
 bold_font = Font(bold=True)
 border_style = Side(border_style='thin')

@@ -110,24 +110,25 @@ for level in levels:
             elif floor_TC == "Club room":
                 level_floors[level_name]["מועדון דיירים"] += floor_area
 
-            elif floor_TC in ["Corridor", "Bicycle", "Kindergarten", "Stroller", "Auxiliary"]:
+            elif floor_TC in ["Corridor", "Bicycle", "Kindergarten", "Stroller", "Auxiliary", "Mamad Public", "Post Office"]:
                 level_floors[level_name]["שטח צבורי"] += floor_area
 
-            elif floor_TC in ["Balcon", "Balcon Lux"]:
-                level_floors[level_name]["מרפסת"] += floor_area
+
+            elif 'FL_Ceramic' in floor.Name and 'Balcon' in floor.Name:
+              level_floors[level_name]['מרפסת'] += floor_area
 
             elif floor_TC == "Mistor Kvisa":
                 level_floors[level_name]["מסתור כביסה"] += floor_area
 
-            elif floor_TC in ["Terasa", "Terasa Lux"]:
-                level_floors[level_name]["מרפסת גג"] += floor_area
+
+            elif 'FL_Ceramic' in floor.Name and 'Terasa' in floor.Name:
+              level_floors[level_name]["מרפסת גג"] += floor_area
 
             elif floor_TC == "Roof":
                 level_floors[level_name]["גג"] += floor_area
 
             elif floor_TC == "Trade":
                 level_floors[level_name]["מסחר"] += floor_area
-            # this need to change to take walls and take it area
 
             elif floor_TC in ["Warehouse", "Technical", "Garbagee", "Service Cabinet", "Pump", "Water Room"]:
                 level_floors[level_name]["חדרים טכני ומחסנים"] += floor_area
@@ -295,46 +296,6 @@ dataframe = dataframe.replace("nan%", "")
 
 from System.Windows.Forms import Form, Button, Label, TextBox, DialogResult
 from System.Drawing import Point
-
-# class UserInputDialog(Form):
-#     def __init__(self):
-#         self.Text = "User Input"
-#
-#         # Create labels and text boxes
-#         self.label = Label()
-#         self.label.Text = "enter the path to save the file:"
-#         self.label.Location = Point(10, 10)
-#         self.label.AutoSize = True
-#
-#         self.input_box = TextBox()
-#         self.input_box.Location = Point(10, 30)
-#         self.input_box.Width = 200
-#
-#         # Create OK and Cancel buttons
-#         self.ok_button = Button()
-#         self.ok_button.Text = "OK"
-#         self.ok_button.DialogResult = DialogResult.OK
-#         self.ok_button.Location = Point(10, 60)
-#
-#         self.cancel_button = Button()
-#         self.cancel_button.Text = "Cancel"
-#         self.cancel_button.DialogResult = DialogResult.Cancel
-#         self.cancel_button.Location = Point(90, 60)
-#
-#         # Add controls to the form
-#         self.Controls.Add(self.label)
-#         self.Controls.Add(self.input_box)
-#         self.Controls.Add(self.ok_button)
-#         self.Controls.Add(self.cancel_button)
-#
-#
-# # Create an instance of the custom dialog box and display it
-# dialog = UserInputDialog()
-# result = dialog.ShowDialog()
-#
-# if result == DialogResult.OK:
-#     input_value = dialog.input_box.Text
-
 
 def save_file_dialog():
     save_dialog = SaveFileDialog()
