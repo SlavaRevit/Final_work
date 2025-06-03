@@ -185,9 +185,6 @@ for level in levels:
                     level_floors[level_name]["שטח מתחת לקירות"] += beam_Area_under
 
 
-print(level_floors) 
-
-
 arc_per = {"מגורים":1,
 "מדרגות":1,
 "פתחים":0,

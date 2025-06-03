@@ -104,9 +104,6 @@ foundation_collector = FilteredElementCollector(doc). \
     ToElements()
 
 
-print("HELLO FROM SLAVA")
-
-
 def getiing_parameters_stairs(doc, stairs_collector, floors_collector_forsteirs):
     for el in stairs_collector:
         stair_type_id = el.GetTypeId()
